@@ -272,3 +272,90 @@ __pycache__/
 # tools/
 
 # End of https://www.toptal.com/developers/gitignore/api/aspnetcore
+
+appsettings.json
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Build output directories
+bin/
+obj/
+
+# Package dependencies
+packages/
+*.nupkg
+*.snupkg
+project.lock.json
+project.assets.json
+
+# User and environment configuration
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# JetBrains Rider and Resharper settings
+.idea/
+*.DotSettings.user
+
+# Logs, cache, and temporary files
+logs/
+*.log
+*.tlog
+temp/
+__pycache__/
+
+# Publish and deployment files
+.publish/
+.publishignore
+wwwroot/node_modules/
+wwwroot/lib/
+dist/
+
+# Secret files and credentials
+secrets.json
+
+# Docker and container configurations
+docker-compose.override.yml
+**/*.db
+**/*.sqlite
+
+# Entity Framework migrations and local databases
+Migrations/
+database.sqlite
+database.db

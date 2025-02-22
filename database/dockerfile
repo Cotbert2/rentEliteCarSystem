@@ -1,0 +1,15 @@
+# Imagen base de SQL Server 2017
+FROM mcr.microsoft.com/mssql/server:2017-latest
+
+# Variables de entorno para aceptar la licencia y establecer la contraseña del usuario SA
+ENV ACCEPT_EULA=Y
+ENV SA_PASSWORD=elite_rent_car_34254
+
+# Exponer el puerto 1433
+EXPOSE 1433
+
+# Comando para iniciar SQL Server
+CMD ["/opt/mssql/bin/sqlservr"]
+
+
+#docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=elite_rent_car_34254" -p 1433:1433 --name rent-elite-car -d mcr.microsoft.com/mssql/server:2017-latest
