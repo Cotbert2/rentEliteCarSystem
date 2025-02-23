@@ -1,5 +1,6 @@
 ﻿
 using EntityLayer;
+using EntityLayer.systemEntities;
 using System.Data.SqlClient;
 
 namespace DataLayer
@@ -7,9 +8,9 @@ namespace DataLayer
     public class CustomerDL : DatabaseConnection
     {
 
-        public EntityLayer.systemEntities.ResponseEL createCustomer(CustomerEL myCustomer)
+        public  ResponseEL createCustomer(CustomerEL myCustomer)
         {
-            EntityLayer.systemEntities.ResponseEL response = new EntityLayer.systemEntities.ResponseEL();
+             ResponseEL response = new  ResponseEL();
             response.code = 500;
             try
             {
@@ -36,5 +37,84 @@ namespace DataLayer
         }
 
 
+        public List<CustomerEL> getAllCustomer()
+        {
+            List<CustomerEL> customers = new List<CustomerEL>();
+            try
+            {
+                using (SqlCommand cmd = new SqlCommand("sp_GetAllCustomers", getConnection()))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            CustomerEL currentCustomer = new CustomerEL();
+                            currentCustomer.customerID = reader.GetInt32(0);
+                            currentCustomer.firstName = reader.GetString(1);
+                            currentCustomer.lastName = reader.GetString(2);
+                            currentCustomer.phone = reader.GetString(3);
+                            currentCustomer.email = reader.GetString(4);
+                            customers.Add(currentCustomer);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return customers;
+            }
+            return customers;
+        }
+
+
+        public  ResponseEL deleteCustomer(int customerId)
+        {
+             ResponseEL response = new  ResponseEL();
+            response.code = 500;
+            try
+            {
+                using (SqlCommand cmd = new SqlCommand("sp_DeleteCustomer", getConnection()))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CustomerId", customerId);
+                    response.code = cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                response.code = 500;
+                response.message = ex.Message;
+                return response;
+            }
+            return response;
+        }
+
+        public  ResponseEL updateCustomer(CustomerEL myCustomer)
+        {
+             ResponseEL response = new  ResponseEL();
+            response.code = 500;
+            try
+            {
+                using (SqlCommand cmd = new SqlCommand("sp_UpdateCustomer", getConnection()))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CustomerId", myCustomer.customerID);
+                    cmd.Parameters.AddWithValue("@FirstName", myCustomer.firstName);
+                    cmd.Parameters.AddWithValue("@LastName", myCustomer.lastName);
+                    cmd.Parameters.AddWithValue("@Phone", myCustomer.phone);
+                    cmd.Parameters.AddWithValue("@Email", myCustomer.email);
+                    response.code = cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                response.code = 500;
+                response.message = ex.Message;
+                return response;
+            }
+            return response;
+        }
     }
 }
