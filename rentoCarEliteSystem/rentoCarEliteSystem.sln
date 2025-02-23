@@ -1,9 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35707.178 d17.12
+VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rentoCarEliteSystem", "rentoCarEliteSystem\rentoCarEliteSystem.csproj", "{74E8802D-B130-4841-B754-DAF10CB6CCF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityLayer", "EntityLayer\EntityLayer.csproj", "{B39D2BF7-A82A-43D8-ABE1-28D19E3A7D3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "DataLayer\DataLayer.csproj", "{3418B806-ACF2-45ED-878B-0374890D5F43}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BussinesLayer", "BussinesLayer\BussinesLayer.csproj", "{95C04C06-023A-462A-8FFC-E3EDBBC962F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{74E8802D-B130-4841-B754-DAF10CB6CCF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74E8802D-B130-4841-B754-DAF10CB6CCF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74E8802D-B130-4841-B754-DAF10CB6CCF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B39D2BF7-A82A-43D8-ABE1-28D19E3A7D3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B39D2BF7-A82A-43D8-ABE1-28D19E3A7D3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B39D2BF7-A82A-43D8-ABE1-28D19E3A7D3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B39D2BF7-A82A-43D8-ABE1-28D19E3A7D3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3418B806-ACF2-45ED-878B-0374890D5F43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3418B806-ACF2-45ED-878B-0374890D5F43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3418B806-ACF2-45ED-878B-0374890D5F43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3418B806-ACF2-45ED-878B-0374890D5F43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95C04C06-023A-462A-8FFC-E3EDBBC962F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95C04C06-023A-462A-8FFC-E3EDBBC962F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95C04C06-023A-462A-8FFC-E3EDBBC962F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95C04C06-023A-462A-8FFC-E3EDBBC962F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
