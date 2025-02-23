@@ -2,7 +2,7 @@
 
 namespace EntityLayer
 {
-    internal class InsuranceEL
+    public class InsuranceEL
     {
         public int insuranceID { get; set; }
         public BookingEL booking { get; set; }
@@ -10,6 +10,5 @@ namespace EntityLayer
         public string insuranceType { get; set; }
 
         public float amount { get; set; }
-
     }
 }

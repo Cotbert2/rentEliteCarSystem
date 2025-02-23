@@ -2,7 +2,7 @@
 {
     public class VehicleEL
     {
-        public int idVehicle {  get; set; }
+        public int VehicleId {  get; set; }
         public string brand { get; set; }
         public string model { get; set; }
         public int vehicleYear { get; set; }

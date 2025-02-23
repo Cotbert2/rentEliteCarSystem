@@ -53,3 +53,5 @@ CREATE DATABASE RentVehicles;
   SecureType NVARCHAR(50) NOT NULL,
   Amount DECIMAL(10,2) NOT NULL
  );
+ALTER TABLE Employees
+ADD Password NVARCHAR(255) NOT NULL;

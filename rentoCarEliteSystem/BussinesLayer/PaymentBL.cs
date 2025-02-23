@@ -1,8 +1,15 @@
 ﻿
 
+using EntityLayer;
+
 namespace BussinesLayer
 {
-    internal class PaymentBL
+    public class PaymentBL
     {
+        public EntityLayer.systemEntities.ResponseEL createPayment(PaymentEL payment)
+        {
+            DataLayer.PaymentDL paymentDL = new DataLayer.PaymentDL();
+            return paymentDL.createPayment(payment);
+        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 namespace EntityLayer
 {
-    internal class PaymentEL
+    public class PaymentEL
     {
         public int paymentID { get; set; }
         public BookingEL booking { get; set; }

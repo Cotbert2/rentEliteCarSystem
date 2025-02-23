@@ -1,8 +1,15 @@
 ﻿
 
+using EntityLayer;
+
 namespace BussinesLayer
 {
-    internal class EmployeeBL
+   public class EmployeeBL
     {
+        public EntityLayer.systemEntities.ResponseEL createEmployee(EmployeeEL employee)
+        {
+            DataLayer.EmployeeDL employeeDL = new DataLayer.EmployeeDL();
+            return employeeDL.createEmployee(employee);
+        }
     }
 }
