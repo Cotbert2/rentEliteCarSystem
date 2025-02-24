@@ -12,9 +12,14 @@ namespace rentoCarEliteSystem.Controllers
             return View();
         }
 
+        public IActionResult ModalCreateCustomer()
+        {
+            return PartialView("ModalCreateCustomer");
+        }
+
 
         [HttpPost]
-        public  ResponseEL createCustomer(CustomerEL customerToCreate)
+        public  ResponseEL createCustomer([FromBody] CustomerEL customerToCreate)
         {
             CustomerBL myCustomer = new CustomerBL();
             return myCustomer.createCustomer(customerToCreate);

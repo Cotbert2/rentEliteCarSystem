@@ -18,7 +18,7 @@ namespace DataLayer
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("@CustomerId", myBooking.customer.customerID);
+                    cmd.Parameters.AddWithValue("@CustomerId", myBooking.customer.id);
                     cmd.Parameters.AddWithValue("@VehicleId", myBooking.vehicle.VehicleId);
                     cmd.Parameters.AddWithValue("@StartDate", myBooking.startDate);
                     cmd.Parameters.AddWithValue("@EndDate", myBooking.endDate);

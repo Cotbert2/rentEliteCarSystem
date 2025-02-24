@@ -50,7 +50,7 @@ namespace DataLayer
                         while (reader.Read())
                         {
                             CustomerEL currentCustomer = new CustomerEL();
-                            currentCustomer.customerID = reader.GetInt32(0);
+                            currentCustomer.id = reader.GetInt32(0);
                             currentCustomer.firstName = reader.GetString(1);
                             currentCustomer.lastName = reader.GetString(2);
                             currentCustomer.phone = reader.GetString(3);
@@ -100,7 +100,7 @@ namespace DataLayer
                 using (SqlCommand cmd = new SqlCommand("sp_UpdateCustomer", getConnection()))
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@CustomerId", myCustomer.customerID);
+                    cmd.Parameters.AddWithValue("@CustomerId", myCustomer.id);
                     cmd.Parameters.AddWithValue("@FirstName", myCustomer.firstName);
                     cmd.Parameters.AddWithValue("@LastName", myCustomer.lastName);
                     cmd.Parameters.AddWithValue("@Phone", myCustomer.phone);
