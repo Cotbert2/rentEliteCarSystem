@@ -100,7 +100,7 @@ namespace DataLayer
                 using (SqlCommand cmd = new SqlCommand("sp_UpdateCustomer", getConnection()))
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@CustomerId", myCustomer.id);
+                    cmd.Parameters.AddWithValue("@Id", myCustomer.id);
                     cmd.Parameters.AddWithValue("@FirstName", myCustomer.firstName);
                     cmd.Parameters.AddWithValue("@LastName", myCustomer.lastName);
                     cmd.Parameters.AddWithValue("@Phone", myCustomer.phone);

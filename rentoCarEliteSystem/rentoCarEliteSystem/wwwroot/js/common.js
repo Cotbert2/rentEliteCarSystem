@@ -46,9 +46,17 @@ const bodyFetch = async (endpoint, dataToSend, responseType, customCallback, met
 }
 
 
-const getFetch = async (customUrl, responseType, customCallback) => {
+const getFetch = async (customUrl, responseType, customCallback, method) => {
+
+    method = (method == undefined) ?  'GET' : method;
+
     try {
-        const res = await fetch(completedUrl + customUrl);
+        const res = await fetch(completedUrl + customUrl, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
         let data;
         if (responseType === "json") {
             data = await res.json();
@@ -106,9 +114,10 @@ const generateTable = (data) => {
 
         if (data.isDeletable || data.isEditable) {
             content += `<td>`;
-            if (data.isEditable) content += `<button class="btn btn-primary" onclick="${data.editFunction}(${currentData.id})" >Edit</button>`;
+            if (data.isEditable)
+                content += `<button class="btn btn-primary" onclick="${data.editFunction}('${encodeURIComponent(JSON.stringify(currentData))}')">Edit</button>`;
 
-            if (data.isDeletable) content += `<button class="btn btn-danger" onclick="${data.deleteFunction}()" >Delete</button>`;
+            if (data.isDeletable) content += `<button class="btn btn-danger" onclick="${data.deleteFunction}('${encodeURIComponent(JSON.stringify(currentData))}')">Delete</button>`;
 
             content += `</td>`;
         }

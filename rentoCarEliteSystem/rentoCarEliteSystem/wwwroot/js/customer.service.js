@@ -8,7 +8,7 @@ const getAllCustomers = async (callback) => {
         console.log('data froms service', data);
         callback(data);
     });
-};saveCustomerButton
+};
 
 
 const createCustomer = async (data, callback) => {
@@ -16,4 +16,12 @@ const createCustomer = async (data, callback) => {
         console.log('data froms service', data);
         callback(responses);
     }, 'POST'); 
+}
+
+
+const deleteCustomerService = async (id, callback) => {
+    getFetch(`/Customer/deleteCustomer?id=${id}`, 'json', (response) => {
+        console.log('data froms service', response);
+        callback(response);
+    }, 'DELETE');
 }

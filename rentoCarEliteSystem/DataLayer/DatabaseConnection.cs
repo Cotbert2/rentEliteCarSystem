@@ -26,7 +26,7 @@ namespace DataLayer
 
         public SqlConnection getConnection()
         {
-            //singleton for connectino
+            //singleton for connection
             if (cn.State == System.Data.ConnectionState.Closed)
             {
                 cn.Open();
