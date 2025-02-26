@@ -1,14 +1,57 @@
-﻿document.getElementById('downloadCsv').addEventListener('click', () => {
-    downloadCSVFileFromTable('dataTable', 'customers');
+﻿//global variables
+let currentCustomerEdit;
+let currentCustomerDelete;
+let tableData;
+let myModal;
+
+let deleteModal;
+
+
+window.onload = () => {
+    //singleton modal, beacuse we only need one modal
+    //bootstrap only allows one modal at a time
+    myModal = new bootstrap.Modal(document.getElementById('formModal'));
+    deleteModal = new bootstrap.Modal(document.getElementById('deleteUserModal'));
+}
+
+
+//Oninit
+getAllCustomers((data) => {
+    tableData = data;
+    renderTableFun(data);
 });
 
-let tableData;
+//utils
+
+const validateCreationEditionForm = () => {
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const phone = document.getElementById('phone').value;
+    const email = document.getElementById('email').value;
+
+    if (!firstName || !lastName || !phone || !email) {
+        alert('All fields are required');
+        return false;
+    }
+
+    if (!validateEmail(email)) {
+        alert('Invalid email');
+        return false;
+    }
+
+    if (!validatePhone(phone)) {
+        alert('Invalid phone');
+        return false;
+    }
+
+    return true;
+}
 
 
 const renderTableFun = (data) => {
     
     renderTable({
-        headers: ['id', 'first name', 'last name', 'phone', 'email'],
+        headers: ['Id', 'Nombre', 'Apellido', 'Telefono', 'email'],
         keys: ['id', 'firstName', 'lastName', 'phone', 'email'],
         data : data,
         isEditable: true,
@@ -18,61 +61,25 @@ const renderTableFun = (data) => {
     });
 }
 
+//Event listeners
 
-getAllCustomers((data) => {
-    tableData = data;
-    renderTableFun(data);
+
+document.getElementById('downloadCsv').addEventListener('click', () => {
+    downloadCSVFileFromTable('dataTable', 'customers');
 });
-
-
-let currentCustomerEdit;
-let currentCustomerDelete;
-
-
-const saveEditedCustomer = () => {
-    console.log('date to edit!!!', currentCustomerEdit);
-
-    currentCustomerEdit.firstName = document.getElementById('firstName').value;
-    currentCustomerEdit.lastName = document.getElementById('lastName').value;
-    currentCustomerEdit.phone = document.getElementById('phone').value;
-    currentCustomerEdit.email = document.getElementById('email').value;
-
-    bodyFetch('/Customer/updateCustomer', currentCustomerEdit, 'json', (response) => {
-        console.log('data froms service', response);
-
-        getAllCustomers((data) => {
-            tableData = data;
-            renderTableFun(data);
-        });
-
-
-    }, 'PUT');
-}
-
-
-
-const editCustomer = (customer) => {
-
-    let dataCustomer = JSON.parse(decodeURIComponent(customer));
-    currentCustomerEdit = dataCustomer;
-    console.log(dataCustomer);
-
-    let myModal = new bootstrap.Modal(document.getElementById('formModal'));
-    myModal.show();
-
-
-    document.getElementById('firstName').value = currentCustomerEdit.firstName;
-    document.getElementById('lastName').value = currentCustomerEdit.lastName;
-    document.getElementById('phone').value = currentCustomerEdit.phone;
-    document.getElementById('email').value = currentCustomerEdit.email;
-}
 
 
 document.getElementById('saveCustomerButton').addEventListener('click', (event) => {
     event.preventDefault();
     saveEditedCustomer();
 
-})
+});
+
+document.getElementById('addNewCustomerButton').addEventListener('click', () => {
+    myModal.show();
+    document.getElementById('saveCustomerButton').style.display = 'none';
+    document.getElementById('addCustomerButton').style.display = 'block';
+});
 
 
 document.getElementById('userForm').addEventListener('submit', (event) => {
@@ -94,8 +101,6 @@ document.getElementById('userForm').addEventListener('submit', (event) => {
 });
 
 
-
-
 document.getElementById('searchInput').addEventListener('keyup', (event) => {
     const searchValue = event.target.value.trim().toLowerCase();
     if (!tableData || !Array.isArray(tableData)) return;
@@ -114,6 +119,9 @@ document.getElementById('searchInput').addEventListener('keyup', (event) => {
 
 document.getElementById('addCustomerButton').addEventListener('click', () => {
 
+
+    if (!validateCreationEditionForm()) return;
+
     let myForm = new FormData(document.getElementById('userForm'));
 
     const dataToSent = {
@@ -125,21 +133,106 @@ document.getElementById('addCustomerButton').addEventListener('click', () => {
 
     console.log('data to sent', dataToSent);
 
+
     createCustomer(dataToSent, (data) => {
         console.log('data from createCustomer', data);
-        (data.code > 1) ? alert('Usuario creado exitosamente') : alert("Ocurrio un error al crear el usuario");
+        if (data.code > 1) {
+            alert('Usuario creado exitosamente');
+            myModal.hide();
+        } else if (data.code == -1 && data.message.includes('UNIQUE KEY')) {
+            alert('El email ya existe');
+        } else {
+            alert('Ocurrio un error al crear el usuario');
+        }
+
         getAllCustomers((data) => {
             tableData = data;
             renderTableFun(data);
         });
     });
+    console.log('add customer!!!asdas');
 
 });
+
+
+document.getElementById('deletCustomerButton').addEventListener('click', () => {
+    deleteCurrentCustomer();
+});
+
+document.getElementById('closeFormModalButton').addEventListener('click', () => {
+    document.getElementById('userForm').reset();
+    myModal.hide();
+});
+
+
+
+//CRUD operations
+
+const saveEditedCustomer = () => {
+    console.log('date to edit!!!', currentCustomerEdit);
+
+    if (!validateCreationEditionForm()) return;
+
+    currentCustomerEdit.firstName = document.getElementById('firstName').value;
+    currentCustomerEdit.lastName = document.getElementById('lastName').value;
+    currentCustomerEdit.phone = document.getElementById('phone').value;
+    currentCustomerEdit.email = document.getElementById('email').value;
+
+    bodyFetch('/Customer/updateCustomer', currentCustomerEdit, 'json', (response) => {
+        console.log('data froms service', response);
+        
+        if (response.code == 1) {
+            alert('Se ha actualizado el usuario');
+            myModal.hide();
+        } else {
+            alert('Error actualizando el usuario');
+        }
+        getAllCustomers((data) => {
+            tableData = data;
+            renderTableFun(data);
+
+        });
+
+
+    }, 'PUT');
+}
+
+
+
+const editCustomer = (customer) => {
+    //add a display block class
+    document.getElementById('saveCustomerButton').style.display = 'block';
+    document.getElementById('addCustomerButton').style.display = 'none';
+
+    let dataCustomer = JSON.parse(decodeURIComponent(customer));
+    currentCustomerEdit = dataCustomer;
+    console.log(dataCustomer);
+
+    myModal.show();
+
+
+    document.getElementById('firstName').value = currentCustomerEdit.firstName;
+    document.getElementById('lastName').value = currentCustomerEdit.lastName;
+    document.getElementById('phone').value = currentCustomerEdit.phone;
+    document.getElementById('email').value = currentCustomerEdit.email;
+}
+
+
+const deleteCustomer = (currentCustomer) => {
+    const dataCustomer = JSON.parse(decodeURIComponent(currentCustomer));
+    console.log('data to delete', dataCustomer);
+
+    currentCustomerDelete = dataCustomer;
+    document.getElementById('confirmationDeletrUserLabel').textContent = `Estas seguro que deseas eliminar al usuario ${currentCustomerDelete.firstName} ${currentCustomerDelete.lastName}`;
+    deleteModal.show();
+}
 
 
 const deleteCurrentCustomer = () => {
 
     console.log('should delete customer', currentCustomerDelete);
+
+    deleteModal.hide();
 
     deleteCustomerService(currentCustomerDelete.id, (response) => {
         console.log('data froms service', response);
@@ -155,16 +248,3 @@ const deleteCurrentCustomer = () => {
 
 
 
-const deleteCustomer = (currentCustomer) => {
-    const dataCustomer = JSON.parse(decodeURIComponent(currentCustomer));
-    console.log('data to delete', dataCustomer);
-
-    currentCustomerDelete = dataCustomer;
-    document.getElementById('confirmationDeletrUserLabel').textContent = `Are you sure you want to delete ${currentCustomerDelete.firstName} ${currentCustomerDelete.lastName}`;
-    let deleteModal = new bootstrap.Modal(document.getElementById('deleteUserModal'));
-    deleteModal.show();
-}
-
-document.getElementById('deletCustomerButton').addEventListener('click', () => {
-    deleteCurrentCustomer();
-});

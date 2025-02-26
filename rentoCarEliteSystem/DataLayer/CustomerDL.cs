@@ -11,7 +11,7 @@ namespace DataLayer
         public  ResponseEL createCustomer(CustomerEL myCustomer)
         {
              ResponseEL response = new  ResponseEL();
-            response.code = 500;
+            response.code = -1;
             try
             {
                 using (SqlCommand cmd = new SqlCommand("sp_InsertCustomer", getConnection()))
@@ -29,7 +29,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                response.code = 500;
+                response.code = -1;
                 response.message = ex.Message;
                 return response;
             }

@@ -113,11 +113,15 @@ const generateTable = (data) => {
         });
 
         if (data.isDeletable || data.isEditable) {
-            content += `<td>`;
+            content += `<td class="d-flex align-items-center justify-content-between ">`
             if (data.isEditable)
-                content += `<button class="btn btn-primary" onclick="${data.editFunction}('${encodeURIComponent(JSON.stringify(currentData))}')">Edit</button>`;
+                content += `<button class="btn btn-primary" onclick="${data.editFunction}('${encodeURIComponent(JSON.stringify(currentData))}')">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </button>`;
 
-            if (data.isDeletable) content += `<button class="btn btn-danger" onclick="${data.deleteFunction}('${encodeURIComponent(JSON.stringify(currentData))}')">Delete</button>`;
+            if (data.isDeletable) content += `<button class="btn btn-danger" onclick="${data.deleteFunction}('${encodeURIComponent(JSON.stringify(currentData))}')">
+            <i class="fa-solid fa-trash"></i>
+            </button>`;
 
             content += `</td>`;
         }
@@ -180,4 +184,27 @@ const downloadCSVFileFromTable = (tableId, filename) => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+}
+
+
+const clearForm = (formId) => {
+    document.getElementById(formId).reset();
+};
+
+
+//utils
+
+const validateEmail = (email) => {
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return emailRegex.test(email);
+}
+
+const validatePhone = (phone) => {
+    const phoneRegex = /^[0-9]{10}$/;
+    return phoneRegex.test(phone);
+}
+
+const validateName = (name) => {
+    const nameRegex = /^[a-zA-Z]{2,}$/;
+    return nameRegex.test(name);
 }

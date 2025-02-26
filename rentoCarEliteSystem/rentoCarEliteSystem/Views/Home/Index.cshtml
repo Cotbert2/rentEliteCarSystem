@@ -2,7 +2,53 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="https://source.unsplash.com/100x100/?monkey" class="monkey-logo" alt="Logo de mono cool">
+                Rent Elite Car
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#servicios">Servicios</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero text-center">
+        <div>
+            <h1 class="display-3">Alquila con Estilo</h1>
+            <p class="lead">Los autos más exclusivos para los clientes más exigentes</p>
+            <a href="#servicios" class="btn btn-primary btn-lg">Ver Autos</a>
+        </div>
+    </header>
+
+    <section id="servicios" class="container py-5">
+        <div class="row text-center">
+            <div class="col-md-4">
+                <img src="https://source.unsplash.com/200x200/?sports-car" class="rounded-circle" alt="Auto deportivo">
+                <h3>Autos Deportivos</h3>
+                <p>Conduce los autos más rápidos y lujosos del mercado.</p>
+            </div>
+            <div class="col-md-4">
+                <img src="https://source.unsplash.com/200x200/?luxury-car" class="rounded-circle" alt="Auto de lujo">
+                <h3>Autos de Lujo</h3>
+                <p>Disfruta del máximo confort con nuestra selección premium.</p>
+            </div>
+            <div class="col-md-4">
+                <img src="https://source.unsplash.com/200x200/?suv" class="rounded-circle" alt="SUV">
+                <h3>SUVs</h3>
+                <p>Seguridad y espacio para cualquier tipo de viaje.</p>
+            </div>
+        </div>
+    </section>
+
+
+</body>

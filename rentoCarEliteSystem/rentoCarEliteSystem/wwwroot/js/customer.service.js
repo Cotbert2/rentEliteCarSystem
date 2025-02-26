@@ -1,7 +1,10 @@
 ﻿/*****Endpoints Definition*****/
 const getAllCustomerEndpoint = '/Customer/getAllCustomer';
 const createCustomerEndpoint = '/Customer/createCustomer';
+const deleteCustomerEndpoint = '/Customer/deleteCustomer';
 
+
+/*****Services*****/
 
 const getAllCustomers = async (callback) => {
     getFetch(getAllCustomerEndpoint, 'json', (data) => {
@@ -20,7 +23,7 @@ const createCustomer = async (data, callback) => {
 
 
 const deleteCustomerService = async (id, callback) => {
-    getFetch(`/Customer/deleteCustomer?id=${id}`, 'json', (response) => {
+    getFetch(`${deleteCustomerEndpoint}?id=${id}`, 'json', (response) => {
         console.log('data froms service', response);
         callback(response);
     }, 'DELETE');
