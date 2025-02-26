@@ -237,7 +237,7 @@ const deleteCurrentCustomer = () => {
     deleteCustomerService(currentCustomerDelete.id, (response) => {
         console.log('data froms service', response);
 
-        (response.code == 1) ? alert('Customer deleted successfully') : alert('Error deleting customer');
+        (response.code == 1) ? alert('Usuario eliminado con exito') : alert('Error eliminando el usuario');
 
         getAllCustomers((data) => {
             tableData = data;
