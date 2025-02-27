@@ -17,3 +17,16 @@ BEGIN
     
     SELECT * FROM Customers;
 END;
+
+/*Login Employees*/
+
+CREATE PROCEDURE sp_LoginEmployee
+    @Email NVARCHAR(100),
+    @Password NVARCHAR(255)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT * FROM Employees
+    WHERE Email = @Email AND Password = @Password;
+END;

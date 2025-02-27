@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using EntityLayer;
+using Microsoft.AspNetCore.Mvc;
 
 namespace rentoCarEliteSystem.Controllers
 {
@@ -19,6 +20,14 @@ namespace rentoCarEliteSystem.Controllers
             BussinesLayer.EmployeeBL myEmployee = new BussinesLayer.EmployeeBL();
             return myEmployee.createEmployee(employeeToCreate);
 
+        }
+
+
+        [HttpPost]
+        public EmployeeEL login([FromBody] EmployeeEL employee)
+        {
+            BussinesLayer.EmployeeBL myEmployee = new BussinesLayer.EmployeeBL();
+            return myEmployee.login(employee);
         }
     }
 }

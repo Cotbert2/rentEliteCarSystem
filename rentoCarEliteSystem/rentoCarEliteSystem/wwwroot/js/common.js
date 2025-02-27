@@ -5,8 +5,12 @@
 
 const completedUrl = window.location.protocol + '//' + window.location.host;
 
+const currentSession = localStorage.getItem('currentSession');
+if (!currentSession && window.location.pathname != '/Employee/login') {
+    window.location.href = '/Employee/login';
+}
 
-
+console.log('currentSession', currentSession);
 
 
 const bodyFetch = async (endpoint, dataToSend, responseType, customCallback, method) => {
@@ -267,4 +271,31 @@ const validateYear = (year) => {
 const validateUrl = (url) => {
     const urlRegex = /^(http|https):\/\/[^ "]+$/;
     return urlRegex.test(url);
+}
+
+
+
+const confirmationModal = (title,text, 
+    confirmLabel, 
+    cancelLabel,
+    confirmationColor, cancelColor,
+    confirmationCallback) => {
+
+    confirmationColor =  (confirmationColor == undefined) ? '#3085d6' : confirmationColor;
+    cancelColor =  (cancelColor == undefined) ? '#d33' : cancelColor;
+
+    Swal.fire({
+        title,
+        text,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: confirmLabel,
+        cancelButtonText: cancelLabel,
+      }).then((result) => {
+        if (result.isConfirmed) {
+            confirmationCallback();
+        }
+      });
 }
