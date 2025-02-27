@@ -10,7 +10,8 @@ CREATE DATABASE RentVehicles;
   Model NVARCHAR(50) NOT NULL,
   VehicleYear INT NOT NULL,
   Price DECIMAL(10,2) NOT NULL,
-  CurrentStatus NVARCHAR(20) NOT NULL
+  CurrentStatus NVARCHAR(20) NOT NULL,
+  Photo NVARCHAR(100) NOT NULL
   );
  
   CREATE TABLE Customers (

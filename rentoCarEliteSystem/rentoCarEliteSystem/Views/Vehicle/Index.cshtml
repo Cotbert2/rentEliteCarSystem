@@ -1,15 +1,14 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Index";
 }
 
-<h1 class="text-md-center">Pannel de Clientes</h1>
+<h1 class="text-md-center">Pannel de Vehiculos</h1>
 
 
 
 <div class="card p-3 mb-3 bg-light">
     <div class="d-flex align-items-center gap-2 justify-content-between">
-        <div class="input-group w-50 d-none"
+        <div class="input-group w-50 d-none">
             <span class="input-group-text"><i class="fas fa-search"></i></span>
             <input type="text" id="searchInput" class="form-control" placeholder="Buscar...">
         </div>
@@ -17,7 +16,7 @@
             <i class="fas fa-file-csv"></i> Descargar .CSV
         </button>
         <button type="button" class="btn btn-primary" id="addNewCustomerButton">
-            <i class="fas fa-user-plus"></i> Nuevo Usuario 
+            <i class="fa-solid fa-car"></i></i> Nuevo Vehiculo
         </button>
     </div>
 </div>
@@ -33,26 +32,35 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalLabel"><i class="fas fa-user-edit"></i> Formulario</h5>
+                <h5 class="modal-title" id="modalLabel"><i class="fas fa-user-edit"></i> Vehiculo</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="userForm">
                     <div class="mb-3">
-                        <label for="firstName" class="form-label"><i class="fas fa-id-badge"></i> First Name</label>
-                        <input type="text" class="form-control" id="firstName" name="firstName" required>
+                        <label for="brand" class="form-label"><i class="fas fa-id-badge"></i> Marca</label>
+                        <input type="text" class="form-control" id="brand" name="brand" required>
                     </div>
+
+
                     <div class="mb-3">
-                        <label for="lastName" class="form-label"><i class="fas fa-id-card"></i> Last Name</label>
-                        <input type="text" class="form-control" id="lastName" name="lastName" required>
+                        <label for="model" class="form-label"><i class="fas fa-car"></i> Modelo</label>
+                        <input type="text" class="form-control" id="model" name="model" required>
                     </div>
+
                     <div class="mb-3">
-                        <label for="phone" class="form-label"><i class="fas fa-phone"></i> Phone</label>
-                        <input type="tel" class="form-control" id="phone" name="phone" required>
+                        <label for="year" class="form-label"><i class="fas fa-calendar-alt"></i> Año</label>
+                        <input type="number" class="form-control" id="year" name="year" min="1900" max="2099" required>
                     </div>
+
                     <div class="mb-3">
-                        <label for="email" class="form-label"><i class="fas fa-envelope"></i> Email</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
+                        <label for="dailyPrice" class="form-label"><i class="fas fa-dollar-sign"></i> Precio por día</label>
+                        <input type="number" class="form-control" id="dailyPrice" name="dailyPrice" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="photoURL" class="form-label"><i class="fas fa-image"></i> URL de la foto</label>
+                        <input type="url" class="form-control" id="photoURL" name="photoURL" required>
                     </div>
                 </form>
             </div>
@@ -60,10 +68,10 @@
                 <button type="button" class="btn btn-secondary" id="closeFormModalButton">
                     <i class="fas fa-times-circle"></i> Cerrar
                 </button>
-                <button id="addCustomerButton" type="button" class="btn btn-primary" >
+                <button id="addVehicleButton" type="button" class="btn btn-primary">
                     <i class="fas fa-save"></i> Guardar
                 </button>
-                <button id="saveCustomerButton" class="btn btn-success" form="userForm" >
+                <button id="saveCustomerButton" class="btn btn-success" form="userForm">
                     <i class="fas fa-edit"></i> Editar
                 </button>
             </div>
@@ -101,5 +109,5 @@
 </div>
 
 <script src="~/js/common.js"></script>
-<script src="~/js/customer.service.js"></script>
-<script src="~/js/customer.js"></script>
+<script src="~/js/vehicles.service.js"></script>
+<script src="~/js/vehicles.js"></script>

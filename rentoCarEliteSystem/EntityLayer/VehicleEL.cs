@@ -8,5 +8,6 @@
         public int vehicleYear { get; set; }
         public float price { get; set; }
         public string status { get; set; }
+        public string photo { get; set; }
     }
 }

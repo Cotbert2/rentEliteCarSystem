@@ -9,6 +9,10 @@ namespace rentoCarEliteSystem.Controllers
             return View();
         }
 
+        public IActionResult Login() { 
+            return View(); 
+        }
+
         [HttpPost]
         public EntityLayer.systemEntities.ResponseEL createEmployee([FromBody] EntityLayer.EmployeeEL employeeToCreate)
         {

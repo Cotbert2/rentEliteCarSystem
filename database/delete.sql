@@ -8,3 +8,14 @@ BEGIN
     DELETE FROM Customers
     WHERE Id = @CustomerId;
 END;
+
+
+CREATE PROCEDURE sp_DeleteVehicle
+    @VehicleId INT
+AS
+BEGIN
+--Change current status to "Deleted" in the vehicle table
+    UPDATE Vehicles
+    SET CurrentStatus = 'eliminado'
+    WHERE Id = @VehicleId;
+END;

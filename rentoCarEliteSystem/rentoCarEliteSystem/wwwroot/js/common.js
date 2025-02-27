@@ -84,6 +84,10 @@ const generateTable = (data) => {
         data.isDeletable = false;
     }
 
+    if(data.showPhotoField == undefined){
+        data.showPhotoField = false;
+    }
+
     let content = '';
 
 
@@ -94,8 +98,12 @@ const generateTable = (data) => {
         content += `<th>${currentHeader}</th>`;
     });
 
+    if (data.showPhotoField) {
+        content += `<th>Imagen</th>`;
+    }
+
     if (data.isEditable || data.isDeletable) {
-        content += `<th>Actions</th>`;
+        content += `<th>Acciones</th>`;
     }
 
 
@@ -111,6 +119,13 @@ const generateTable = (data) => {
         data.keys.forEach(currentKey => {
             content += `<td>${currentData[currentKey]}</td>`;
         });
+
+        if (data.showPhotoField) {
+            content += `<td><img src="${currentData.photo}" class="img-fluid"
+            style="height: 50px;"
+            alt="photo"></td>`;
+        }
+
 
         if (data.isDeletable || data.isEditable) {
             content += `<td class="d-flex align-items-center justify-content-between ">`
@@ -230,4 +245,26 @@ const validatePhone = (phone) => {
 const validateName = (name) => {
     const nameRegex = /^[a-zA-Z]{2,}$/;
     return nameRegex.test(name);
+}
+
+const validateNumber = (number) => {
+    //include point
+    const numberRegex = /^[0-9]+(\.[0-9]+)?$/;
+    return numberRegex.test(number);
+}
+
+
+const validatePrice = (price) => {
+    const priceRegex = /^[0-9]+(\.[0-9]+)?$/;
+    return priceRegex.test(price);
+}
+
+const validateYear = (year) => {
+    const yearRegex = /^[0-9]{4}$/;
+    return yearRegex.test(year);
+}
+
+const validateUrl = (url) => {
+    const urlRegex = /^(http|https):\/\/[^ "]+$/;
+    return urlRegex.test(url);
 }

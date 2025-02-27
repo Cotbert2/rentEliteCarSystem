@@ -17,5 +17,17 @@ namespace BussinesLayer
             VehicleDL vehicleDL = new VehicleDL();
             return vehicleDL.getAllVehicles();
         }
+
+
+        public EntityLayer.systemEntities.ResponseEL updateVehicle(VehicleEL vehicle)
+        {
+            VehicleDL vehicleDL = new VehicleDL();
+            return vehicleDL.updateVehicle(vehicle);
+        }
+
+        public EntityLayer.systemEntities.ResponseEL deleteVehicle(int vehicleId) {
+            VehicleDL vehicleDL = new VehicleDL();
+            return vehicleDL.deleteVehicle(vehicleId);
+        }
     }
 }
