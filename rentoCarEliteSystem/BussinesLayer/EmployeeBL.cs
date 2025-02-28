@@ -19,5 +19,25 @@ namespace BussinesLayer
             EmployeeDL employeeDL = new EmployeeDL();
             return employeeDL.login(employee);
         }
+
+        public List<EmployeeEL> getAllEmployees()
+        {
+            EmployeeDL employeeDL = new EmployeeDL();
+
+            return employeeDL.getAllEmployees();
+        }
+
+        public EntityLayer.systemEntities.ResponseEL updateEmployee(EmployeeEL employee)
+        {
+            EmployeeDL employeeDL = new EmployeeDL();
+            return employeeDL.updateEmployee(employee);
+        }
+
+
+        public EntityLayer.systemEntities.ResponseEL deleteEmployee(int employeeId)
+        {
+            EmployeeDL employeeDL = new EmployeeDL();
+            return employeeDL.deleteEmployee(employeeId);
+        }
     }
 }

@@ -30,3 +30,19 @@ BEGIN
     SELECT * FROM Employees
     WHERE Email = @Email AND Password = @Password;
 END;
+
+
+/*  Id INT IDENTITY(1,1) PRIMARY KEY,
+  FirstName NVARCHAR(100) NOT NULL,
+  LastName NVARCHAR(100) NOT NULL,
+  Position NVARCHAR(50) NOT NULL,
+  Phone NVARCHAR(15) NOT NULL,
+  Email NVARCHAR(100) UNIQUE NOT NULL*/
+
+CREATE PROCEDURE sp_getAllEmployees
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT Id, FirstName, LastName, Position, Phone, Email FROM Employees;
+END;

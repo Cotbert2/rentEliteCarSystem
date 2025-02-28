@@ -75,5 +75,97 @@ namespace DataLayer
         }
 
 
+
+
+
+        public List<EmployeeEL> getAllEmployees()
+        {
+            List<EmployeeEL> employees = new List<EmployeeEL>();
+            try
+            {
+                using (SqlCommand cmd = new SqlCommand("sp_getAllEmployees", getConnection()))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            EmployeeEL employee = new EmployeeEL();
+                            /*    SELECT Id, FirstName, LastName, Position, Phone, Email FROM Employees;
+*/
+
+                            employee.employeeID = reader.GetInt32(0);
+                            employee.firstName = reader.GetString(1);
+                            employee.lastName = reader.GetString(2);
+                            employee.position = reader.GetString(3);
+                            employee.phone = reader.GetString(4);
+                            employee.email = reader.GetString(5);
+                            employees.Add(employee);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return employees;
+            }
+            return employees;
+        }
+
+
+        public EntityLayer.systemEntities.ResponseEL updateEmployee(EmployeeEL myEmployee)
+        {
+            EntityLayer.systemEntities.ResponseEL response = new EntityLayer.systemEntities.ResponseEL();
+            response.code = 500;
+            try
+            {
+                using (SqlCommand cmd = new SqlCommand("sp_UpdateEmployee", getConnection()))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id", myEmployee.employeeID);
+                    cmd.Parameters.AddWithValue("@FirstName", myEmployee.firstName);
+                    cmd.Parameters.AddWithValue("@LastName", myEmployee.lastName);
+                    cmd.Parameters.AddWithValue("@Position", myEmployee.position);
+                    cmd.Parameters.AddWithValue("@Phone", myEmployee.phone);
+                    cmd.Parameters.AddWithValue("@Email", myEmployee.email);
+                    cmd.Parameters.AddWithValue("@Password", myEmployee.password);
+                    response.code = cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                response.code = 500;
+                response.message = ex.Message;
+                return response;
+            }
+            return response;
+        }
+
+
+        public EntityLayer.systemEntities.ResponseEL deleteEmployee(int employeeId)
+        {
+            EntityLayer.systemEntities.ResponseEL response = new EntityLayer.systemEntities.ResponseEL();
+            response.code = 500;
+            try
+            {
+                using (SqlCommand cmd = new SqlCommand("sp_DeleteEmployee", getConnection()))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@EmployeeId", employeeId);
+                    response.code = cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                response.code = 500;
+                response.message = ex.Message;
+                return response;
+            }
+            return response;
+        }
+
+
+
     }
 }

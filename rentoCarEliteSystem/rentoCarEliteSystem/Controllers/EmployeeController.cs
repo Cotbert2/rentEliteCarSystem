@@ -29,5 +29,28 @@ namespace rentoCarEliteSystem.Controllers
             BussinesLayer.EmployeeBL myEmployee = new BussinesLayer.EmployeeBL();
             return myEmployee.login(employee);
         }
+
+        [HttpGet]
+        public List<EmployeeEL> getAllEmployees() {
+            BussinesLayer.EmployeeBL myEmployee = new BussinesLayer.EmployeeBL();
+            return myEmployee.getAllEmployees();
+        }
+
+        [HttpPut]
+        public EntityLayer.systemEntities.ResponseEL updateEmployee([FromBody] EmployeeEL employeeToUpdate)
+        {
+            BussinesLayer.EmployeeBL myEmployee = new BussinesLayer.EmployeeBL();
+            return myEmployee.updateEmployee(employeeToUpdate);
+        }
+
+
+        [HttpDelete]
+        public EntityLayer.systemEntities.ResponseEL deleteEmployee( int id)
+        {
+            BussinesLayer.EmployeeBL myEmployee = new BussinesLayer.EmployeeBL();
+            return myEmployee.deleteEmployee(id);
+        }
+
+        
     }
 }
