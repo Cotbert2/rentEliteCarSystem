@@ -72,3 +72,32 @@ BEGIN
     SELECT CustomerId, StartDate, EndDate, BookingStatus  FROM Bookings
     WHERE VehicleId = @VehicleId;
 END;
+
+
+
+CREATE PROCEDURE sp_GetDashboardData
+AS
+BEGIN
+SELECT 
+    B.Id AS BookingId,
+    C.FirstName + ' ' + C.LastName AS CustomerName,
+    C.Phone AS CustomerPhone,
+    C.Email AS CustomerEmail,
+    V.Brand + ' ' + V.Model AS Vehicle,
+    V.VehicleYear,
+    V.Price AS VehiclePrice,
+    B.StartDate,
+    B.EndDate,
+    B.BookingStatus,
+    P.Amount AS PaymentAmount,
+    P.PaymentMethod,
+    P.PaymentDate,
+    I.SecureType AS InsuranceType,
+    I.Amount AS InsuranceAmount
+FROM Bookings B
+JOIN Customers C ON B.CustomerId = C.Id
+JOIN Vehicles V ON B.VehicleId = V.Id
+LEFT JOIN Payments P ON B.Id = P.BookingId
+LEFT JOIN Insurance I ON B.Id = I.BookingId
+ORDER BY B.Id;
+END;

@@ -30,5 +30,12 @@ namespace rentoCarEliteSystem.Controllers
             BoookingBL myBooking = new BoookingBL();
             return myBooking.getBookingsByVechileId(vehicleId);
         }
+
+
+        public List<EntityLayer.systemEntities.DashBoardEL> getDashBoardData()
+        {
+            BoookingBL myBooking = new BoookingBL();
+            return myBooking.getDashBoardData();
+        }
     }
 }

@@ -109,5 +109,58 @@ namespace DataLayer
         }
 
 
+
+
+        public List< EntityLayer.systemEntities.DashBoardEL> getDashBoardData()
+        {
+            List<EntityLayer.systemEntities.DashBoardEL> dashBoardList = new List<EntityLayer.systemEntities.DashBoardEL>();
+            try
+            {
+                using (SqlCommand cmd = new SqlCommand("sp_GetDashBoardData", getConnection()))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            EntityLayer.systemEntities.DashBoardEL dashBoard = new EntityLayer.systemEntities.DashBoardEL();
+                            dashBoard.booking = new BookingEL();
+                            dashBoard.booking.customer = new CustomerEL();
+                            dashBoard.booking.vehicle = new VehicleEL();
+                            dashBoard.payment = new PaymentEL();
+                            dashBoard.insurance = new InsuranceEL();
+
+                            dashBoard.booking.bookingID = reader["BookingId"] != DBNull.Value ? Convert.ToInt32(reader["BookingId"]) : 0;
+                            dashBoard.booking.startDate = reader["StartDate"] != DBNull.Value ? Convert.ToDateTime(reader["StartDate"]) : DateTime.MinValue;
+                            dashBoard.booking.endDate = reader["EndDate"] != DBNull.Value ? Convert.ToDateTime(reader["EndDate"]) : DateTime.MinValue;
+                            dashBoard.booking.bookingStatus = reader["BookingStatus"] != DBNull.Value ? Convert.ToString(reader["BookingStatus"]) : string.Empty;
+                            dashBoard.booking.customer.firstName = reader["CustomerName"] != DBNull.Value ? Convert.ToString(reader["CustomerName"]) : string.Empty;
+                            dashBoard.booking.customer.phone = reader["CustomerPhone"] != DBNull.Value ? Convert.ToString(reader["CustomerPhone"]) : string.Empty;
+                            dashBoard.booking.customer.email = reader["CustomerEmail"] != DBNull.Value ? Convert.ToString(reader["CustomerEmail"]) : string.Empty;
+                            dashBoard.booking.vehicle.brand = reader["Vehicle"] != DBNull.Value ? Convert.ToString(reader["Vehicle"]) : string.Empty;
+                            dashBoard.booking.vehicle.vehicleYear = reader["VehicleYear"] != DBNull.Value ? Convert.ToInt32(reader["VehicleYear"]) : 0;
+                            dashBoard.booking.vehicle.price = reader["VehiclePrice"] != DBNull.Value ? Convert.ToSingle(reader["VehiclePrice"]) : 0f;
+                            dashBoard.payment.amount = reader["PaymentAmount"] != DBNull.Value ? Convert.ToSingle(reader["PaymentAmount"]) : 0f;
+                            dashBoard.payment.paymentMethod = reader["PaymentMethod"] != DBNull.Value ? Convert.ToString(reader["PaymentMethod"]) : string.Empty;
+                            dashBoard.payment.paymentDate = reader["PaymentDate"] != DBNull.Value ? Convert.ToDateTime(reader["PaymentDate"]) : DateTime.MinValue;
+                            dashBoard.insurance.insuranceType = reader["InsuranceType"] != DBNull.Value ? Convert.ToString(reader["InsuranceType"]) : string.Empty;
+                            dashBoard.insurance.amount = reader["InsuranceAmount"] != DBNull.Value ? Convert.ToSingle(reader["InsuranceAmount"]) : 0f;
+
+                            dashBoardList.Add(dashBoard);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return null;
+            }
+            return dashBoardList;
+
+        }
+
+
     }
+
 }

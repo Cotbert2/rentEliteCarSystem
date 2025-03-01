@@ -33,5 +33,13 @@ namespace rentoCarEliteSystem.Controllers
         {
             return View();
         }
+
+        public IActionResult Dashboard()
+        {
+            return View();
+        }
+
+
+        
     }
 }

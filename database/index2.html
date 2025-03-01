@@ -3,27 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Automático</title>
+    <title>Dashboard de Reservas</title>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gridjs/dist/gridjs.umd.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/gridjs/dist/theme/mermaid.min.css" rel="stylesheet">
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
+        body { font-family: Arial, sans-serif; text-align: center; background: #f4f4f4; padding: 20px; }
         .container { display: flex; flex-wrap: wrap; justify-content: space-around; }
-        .card { width: 22%; background: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px; }
-        #chart1, #chart2, #chart3 { width: 48%; height: 350px; display: inline-block; }
+        .card { width: 22%; background: white; padding: 15px; border-radius: 8px; margin: 10px; box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); }
+        #chart1, #chart2, #chart3 { width: 48%; height: 350px; display: inline-block; margin-top: 20px; }
     </style>
 </head>
 <body>
 
-    <h2>📊 Dashboard de Ventas</h2>
+    <h2>🚗 Rent Elit Car System - Dashboard de Reservas</h2>
 
     <!-- Métricas Clave -->
     <div class="container">
-        <div class="card">🔹 Total Ventas: <b id="totalVentas"></b></div>
-        <div class="card">📈 Promedio Ventas: <b id="promedioVentas"></b></div>
-        <div class="card">🔝 Máximo Ventas: <b id="maxVentas"></b></div>
-        <div class="card">📉 Mínimo Ventas: <b id="minVentas"></b></div>
+        <div class="card">📆 Total Reservas: <b id="totalReservas"></b></div>
+        <div class="card">💰 Total Ingresos: $<b id="totalIngresos"></b></div>
+        <div class="card">📊 Promedio Ingreso: $<b id="promedioIngreso"></b></div>
+        <div class="card">🚘 Vehículo Más Rentado: <b id="vehiculoPopular"></b></div>
     </div>
 
     <!-- Gráficos -->
@@ -33,66 +33,76 @@
         <div id="chart3"></div>
     </div>
 
-    <!-- Tabla de datos -->
+    <!-- Tabla de Reservas -->
     <div id="table"></div>
 
     <script>
-        // 📌 Datos JSON
-        const jsonData = [
-            { name: "Producto A", ventas: 120, categoria: "Electrónica" },
-            { name: "Producto B", ventas: 200, categoria: "Moda" },
-            { name: "Producto C", ventas: 90, categoria: "Hogar" },
-            { name: "Producto D", ventas: 150, categoria: "Electrónica" },
-            { name: "Producto E", ventas: 180, categoria: "Moda" }
+        // 📌 Datos de Reservas (Simulados)
+        const reservas = [
+            { id: 1, cliente: "Juan Pérez", vehiculo: "Toyota Corolla", fecha: "2025-03-01", total: 250 },
+            { id: 2, cliente: "Ana Gómez", vehiculo: "Honda Civic", fecha: "2025-03-02", total: 300 },
+            { id: 3, cliente: "Carlos Ruiz", vehiculo: "Ford Fiesta", fecha: "2025-03-03", total: 200 },
+            { id: 4, cliente: "Laura Méndez", vehiculo: "Chevrolet Spark", fecha: "2025-03-04", total: 280 },
+            { id: 5, cliente: "Pedro López", vehiculo: "Toyota Corolla", fecha: "2025-03-05", total: 320 },
+            { id: 6, cliente: "María Castillo", vehiculo: "Honda Civic", fecha: "2025-03-06", total: 340 }
         ];
 
         // 📊 Cálculo de estadísticas
-        const total = jsonData.reduce((sum, item) => sum + item.ventas, 0);
-        const max = Math.max(...jsonData.map(item => item.ventas));
-        const min = Math.min(...jsonData.map(item => item.ventas));
-        const promedio = (total / jsonData.length).toFixed(2);
+        const totalReservas = reservas.length;
+        const totalIngresos = reservas.reduce((sum, r) => sum + r.total, 0);
+        const promedioIngreso = (totalIngresos / totalReservas).toFixed(2);
+
+        // 🚗 Contar vehículos más rentados
+        const vehiculos = reservas.map(r => r.vehiculo);
+        const conteoVehiculos = vehiculos.reduce((acc, vehiculo) => {
+            acc[vehiculo] = (acc[vehiculo] || 0) + 1;
+            return acc;
+        }, {});
+        const vehiculoPopular = Object.keys(conteoVehiculos).reduce((a, b) => conteoVehiculos[a] > conteoVehiculos[b] ? a : b);
 
         // 📌 Insertar métricas clave en HTML
-        document.getElementById("totalVentas").innerText = total;
-        document.getElementById("promedioVentas").innerText = promedio;
-        document.getElementById("maxVentas").innerText = max;
-        document.getElementById("minVentas").innerText = min;
+        document.getElementById("totalReservas").innerText = totalReservas;
+        document.getElementById("totalIngresos").innerText = totalIngresos;
+        document.getElementById("promedioIngreso").innerText = promedioIngreso;
+        document.getElementById("vehiculoPopular").innerText = vehiculoPopular;
 
         // 📌 Mostrar tabla con Grid.js
         new gridjs.Grid({
-            columns: ["Nombre", "Ventas", "Categoría"],
-            data: jsonData.map(item => [item.name, item.ventas, item.categoria])
+            columns: ["ID", "Cliente", "Vehículo", "Fecha", "Total ($)"],
+            data: reservas.map(r => [r.id, r.cliente, r.vehiculo, r.fecha, r.total])
         }).render(document.getElementById("table"));
 
-        // 📊 Gráfico de Barras (Ventas por Producto)
-        const chart1 = echarts.init(document.getElementById("chart1"));
-        chart1.setOption({
-            title: { text: "Ventas por Producto" },
-            xAxis: { type: "category", data: jsonData.map(item => item.name) },
-            yAxis: { type: "value" },
-            series: [{ type: "bar", data: jsonData.map(item => item.ventas), color: "#3498db" }]
-        });
-
-        // 📊 Gráfico de Pastel (Participación de Categorías)
-        const categorias = [...new Set(jsonData.map(item => item.categoria))];
-        const dataCategorias = categorias.map(cat => ({
-            name: cat,
-            value: jsonData.filter(item => item.categoria === cat).reduce((sum, item) => sum + item.ventas, 0)
+        // 📊 Gráfico de Barras (Ingresos por Vehículo)
+        const ingresosPorVehiculo = Object.keys(conteoVehiculos).map(vehiculo => ({
+            name: vehiculo,
+            value: reservas.filter(r => r.vehiculo === vehiculo).reduce((sum, r) => sum + r.total, 0)
         }));
 
-        const chart2 = echarts.init(document.getElementById("chart2"));
-        chart2.setOption({
-            title: { text: "Ventas por Categoría" },
-            series: [{ type: "pie", radius: "50%", data: dataCategorias }]
+        const chart1 = echarts.init(document.getElementById("chart1"));
+        chart1.setOption({
+            title: { text: "Ingresos por Vehículo" },
+            xAxis: { type: "category", data: ingresosPorVehiculo.map(v => v.name) },
+            yAxis: { type: "value" },
+            series: [{ type: "bar", data: ingresosPorVehiculo.map(v => v.value), color: "#3498db" }]
         });
 
-        // 📊 Gráfico de Línea (Tendencias de Ventas)
+        // 📊 Gráfico de Pastel (Cantidad de Rentas por Vehículo)
+        const chart2 = echarts.init(document.getElementById("chart2"));
+        chart2.setOption({
+            title: { text: "Reservas por Vehículo" },
+            series: [{ type: "pie", radius: "50%", data: Object.keys(conteoVehiculos).map(veh => ({
+                name: veh,
+                value: conteoVehiculos[veh]
+            })) }]
+        });
+
+        // 📊 Gráfico de Línea (Tendencia de Ingresos)
         const chart3 = echarts.init(document.getElementById("chart3"));
         chart3.setOption({
-            title: { text: "Tendencia de Ventas" },
-            xAxis: { type: "category", data: jsonData.map(item => item.name) },
+            title: { text: "Tendencia de Ingresos" },
+            xAxis: { type: "category", data: reservas.map(r => r.fecha) },
             yAxis: { type: "value" },
-            series: [{ type: "line", data: jsonData.map(item => item.ventas), color: "#e74c3c" }]
+            series: [{ type: "line", data: reservas.map(r => r.total), color: "#e74c3c" }]
         });
 
     </script>
