@@ -11,7 +11,7 @@ namespace DataLayer
         public EntityLayer.systemEntities.ResponseEL createPayment(PaymentEL myPayment)
         {
             EntityLayer.systemEntities.ResponseEL response = new EntityLayer.systemEntities.ResponseEL();
-            response.code = 500;
+            response.code = -1;
             try
             {
                 using (SqlCommand cmd = new SqlCommand("sp_InsertPayment", getConnection()))
@@ -30,7 +30,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                response.code = 500;
+                response.code = -1;
                 response.message = ex.Message;
                 return response;
             }

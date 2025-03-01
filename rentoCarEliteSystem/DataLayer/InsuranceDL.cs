@@ -10,7 +10,7 @@ namespace DataLayer
         public EntityLayer.systemEntities.ResponseEL createInsurance(InsuranceEL myInsurance)
         {
             EntityLayer.systemEntities.ResponseEL response = new EntityLayer.systemEntities.ResponseEL();
-            response.code = 500;
+            response.code = -1;
             try
             {
                 using (SqlCommand cmd = new SqlCommand("sp_InsertInsurance", getConnection()))
@@ -26,7 +26,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                response.code = 500;
+                response.code = -1;
                 response.message = ex.Message;
                 return response;
             }

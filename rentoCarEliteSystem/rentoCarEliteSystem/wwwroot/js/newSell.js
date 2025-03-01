@@ -2,7 +2,35 @@
 let customersCatalog;
 
 
+const secures = [
+    {
+        type : "Ninguno",
+        description : "No cubre daños, tu responsabilidad es total",
+        amount : 0,
+    },
+    {
+        type : "Premium",
+        description : "Cubre daños a terceros, a tu vehículo y a ti",
+        amount : 35,
+    },
+    {
+        type : "Completo",
+        description : "Cubre daños a terceros y a tu vehículo",
+        amount : 25,
+    },
+    {
+        type : "Basico",
+        description : "Cubre accidentes menores",
+        amount : 15,
+    },
+    {
+        type : "Terceros",
+        description : "Cubre daños a terceros",
+        amount : 10,
+    }
+];
 
+let secureOption;
 let currentVehicle;
 
 
@@ -11,7 +39,7 @@ let selectCustomer
 let select
 document.addEventListener("DOMContentLoaded", () => {
     window.stepper = new Stepper(document.querySelector("#stepper"));
-    stepper.to(3); // Ir al primer paso al cargar la página
+    stepper.to(1); // Ir al primer paso al cargar la página
 
     select = new TomSelect("#select-items", {
         create: false, // No permite agregar nuevos elementos
@@ -48,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
     select.addOptions(itemsCustomer);
 
     select.on("change", (e) => {
-        booking.vehicle.VehicleId = JSON.parse(e).vehicleId;
+        booking.vehicle = JSON.parse(e);
         let datesInavailable = [];
         getBookingsByVehicleId(JSON.parse(e).vehicleId, (data) => {
             console.log('booking form this car', data);
@@ -71,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
     selectCustomer.on("change", (e) => {
-        booking.customer.id = JSON.parse(e).id;
+        booking.customer = JSON.parse(e);
         console.log('event', e);
     });
 
@@ -100,7 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-
+    let bookingID;
 
 
 
@@ -209,18 +237,23 @@ document.addEventListener("DOMContentLoaded", () => {
         if (reservedDates.length === 0) {
             alert('Debes seleccionar al menos una fecha.');
         } else {
-            //stepper.next();
             createBookingService(booking, (data) => {
                 console.log('data from createBooking', data);
                 if (data.code > 1) {
+                    bookingID = data.code;
                     alert('Reserva creada exitosamente');
-                    stepper.next();
 
                 } else {
                     alert('Ocurrio un error al crear la reserva');
                 }
             });
-            console.log('should pass')
+                    stepper.next();
+
+
+            console.log('should pass');
+
+
+            document.getElementById('totalAmount').value = computeTotalAmount();
         }
     });
 
@@ -229,6 +262,87 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById('paymentMethod').addEventListener('change', (e) => {
         booking.paymentMethod = e.target.value;
+    });
+
+    document.getElementById('nextStepPayment').addEventListener('click', () => {
+        createPayment({
+            paymentMethod: document.getElementById('paymentMethod').value,
+            booking: {
+                bookingID
+            }
+
+        }, (data) => {
+            console.log('data bring', data);
+            if (data.code >= 1) {
+                alert('Pago creado con exito');
+            } else {
+                alert('Ocurrio un error al crear el pago');
+            }
+
+        })
+    });
+
+
+
+    const computeTotalAmount = () => {
+        const days = getReservedDates().length;
+        const pricePerDay = booking.vehicle.price;
+        const totalAmount = days * pricePerDay;
+        return totalAmount;
+
+    }
+
+
+
+
+
+
+
+
+
+
+    const secureTypeSelect = document.getElementById("secureType");
+    const descriptionField = document.getElementById("description");
+    const amountField = document.getElementById("amount");
+
+    let fullSelectedTypeSecure;
+
+    secures.forEach(secure => {
+        let option = document.createElement("option");
+        option.value = secure.type;
+        option.textContent = secure.type;
+        secureTypeSelect.appendChild(option);
+    });
+
+    secureTypeSelect.addEventListener("change",  () => {
+        const selectedType = secureTypeSelect.value;
+        const selectedSecure = secures.find(s => s.type === selectedType);
+        fullSelectedTypeSecure = selectedSecure;
+        if (selectedSecure) {
+            descriptionField.value = selectedSecure.description;
+            amountField.value = `$${selectedSecure.amount}`;
+        }
+    });
+
+
+    document.getElementById('nextInsuranceButton').addEventListener('click', () => {
+        secureOption = secureTypeSelect.value;
+        console.log('secure option', secureOption)
+        createInsurancePayment({
+            booking:  {
+            bookingID
+            },
+            insuranceType: fullSelectedTypeSecure.type,
+            amount: fullSelectedTypeSecure.amount
+        }, (data) => {
+            console.log('data', data);
+            if (data.code >= 1) {
+                alert('Pago de seguro creado con exito');
+            } else {
+                alert('Ocurrio un error al crear el pago de seguro');
+            }
+        })
+        stepper.next();
     });
 
 });

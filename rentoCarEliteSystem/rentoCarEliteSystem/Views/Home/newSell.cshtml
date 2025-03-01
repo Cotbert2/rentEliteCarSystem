@@ -29,6 +29,14 @@
             </div>
             <div class="line"></div>
             <div class="step" data-target="#step-4">
+
+                <button class="step-trigger">
+                    <span class="bs-stepper-circle"><i class="fa-solid fa-shield"></i></span>
+                    <span class="bs-stepper-label">Seguro</span>
+                </button>
+            </div>
+            <div class="line"></div>
+            <div class="step" data-target="#step-5">
                 <button class="step-trigger">
                     <span class="bs-stepper-circle"><i class="fa-solid fa-credit-card"></i></span>
                     <span class="bs-stepper-label">Pago</span>
@@ -36,13 +44,6 @@
 
 
 
-                </button>
-            </div>
-            <div class="line"></div>
-            <div class="step" data-target="#step-5">
-                <button class="step-trigger">
-                    <span class="bs-stepper-circle"><i class="fa-solid fa-shield"></i></span>
-                    <span class="bs-stepper-label">Seguro</span>
                 </button>
             </div>
         </div>
@@ -82,28 +83,61 @@
             </div>
             <!-- Paso 4 -->
             <div id="step-4" class="content">
-                <h5>Detalles de Pago</h5>
 
-                <!--combo box for payment method-->
-                <select class="form-select mb-3" id="paymentMethod">
-                    <option value="cash">Efectivo</option>
-                    <option value="debit_card">Tarjeta de crédito</option>
-                    <option value="credit_card">Tarjeta de débito</option>
-                </select>
 
+                <div class="mb-3">
+
+                    <div class="container mt-5">
+                        <h2><i class="fas fa-shield-alt"></i> Seleccione un Seguro</h2>
+                        <div class="mb-3">
+                            <label for="secureType" class="form-label">Tipo de Seguro</label>
+                            <select id="secureType" class="form-select">
+                                <option value="" disabled selected>Seleccione un tipo</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Descripción</label>
+                            <textarea id="description" class="form-control" rows="3" readonly></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="amount" class="form-label">Costo</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                                <input type="text" id="amount" class="form-control" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <button class="btn btn-secondary" onclick="stepper.previous()">Anterior</button>
-                <button class="btn btn-primary" onclick="stepper.next()">Siguiente</button>
+                <button class="btn btn-primary" id="nextInsuranceButton">Siguiente</button>
             </div>
             <!-- Paso 5 -->
             <div id="step-5" class="content">
-                <h5>Seguro Opcional</h5>
-                <select class="form-control mb-3">
-                    <option>Sin seguro</option>
-                    <option>Seguro básico</option>
-                    <option>Seguro completo</option>
+                <div class="mb-3">
+                    <label for="totalAmount" class="form-label">Costo</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                        <input type="text" id="totalAmount" class="form-control" readonly>
+                    </div>
+                </div>
+                
+
+                <label for="paymentMethod" class="form-label">
+                    <i class="fas fa-credit-card"></i> Método de Pago
+                </label>
+                <select class="form-select" id="paymentMethod">
+                    <option value="cash">
+                        <i class="fas fa-money-bill-wave"></i> Efectivo
+                    </option>
+                    <option value="debit_card">
+                        <i class="fas fa-credit-card"></i> Tarjeta de débito
+                    </option>
+                    <option value="credit_card">
+                        <i class="fas fa-university"></i> Tarjeta de crédito
+                    </option>
                 </select>
                 <button class="btn btn-secondary" onclick="stepper.previous()">Anterior</button>
-                <button class="btn btn-success">Finalizar</button>
+                <button class="btn btn-success" id="nextStepPayment">Finalizar</button>
             </div>
         </div>
     </div>
