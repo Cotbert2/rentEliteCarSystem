@@ -1,3 +1,87 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+
+<style>
+    main {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        color: #fff;
+        text-align: center;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    .background {
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        background: linear-gradient(45deg, #ff416c, #ff4b2b, #1e90ff, #8a2be2);
+        background-size: 400% 400%;
+        animation: gradientBG 10s ease infinite;
+    }
+
+    @@keyframes gradientBG {
+        0%
+
+    {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+
+    }
+
+    .container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+
+    p {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+    }
+
+    .btn {
+        background-color: #e94560;
+        color: #fff;
+        padding: 10px 20px;
+        text-decoration: none;
+        font-size: 1.2rem;
+        border-radius: 5px;
+        transition: 0.3s;
+    }
+
+        .btn:hover {
+            background-color: #f15a74;
+        }
+</style>
+
+<main>
+    <div class="background"></div>
+    <div class="container">
+        <h1>Bienvenido a Rent Elit Car System</h1>
+        <p>Accede al panel interno para gestionar los vehículos y clientes.</p>
+        <a asp-controller="Home" asp-action="newSell" class="btn">Ingresar al Sistema</a>
+    </div>
+</main>

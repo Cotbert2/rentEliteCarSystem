@@ -60,3 +60,15 @@ BEGIN
 END;
 
 EXEC sp_getBookingsByCustomerId 1;
+
+
+CREATE PROCEDURE sp_getBookingsByVehicleId
+    @VehicleId INT
+
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT CustomerId, StartDate, EndDate, BookingStatus  FROM Bookings
+    WHERE VehicleId = @VehicleId;
+END;

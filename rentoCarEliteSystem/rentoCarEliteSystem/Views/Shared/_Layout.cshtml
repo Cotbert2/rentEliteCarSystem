@@ -1,40 +1,43 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="es" data-bs-theme="light">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Rent Car Elite System</title>
-    <script type="importmap"></script>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css">
     <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
-
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/main.min.css" rel="stylesheet">
-
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.15/index.global.js" integrity="sha512-3I+0zIxy2IkeeCvvhXUEu+AFT3zAGuHslHLDmM8JBv6FT7IW6WjhGpUZ55DyGXArYHD0NshixtmNUWJzt0K32w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.15/index.global.js"></script>
 
     <link rel="stylesheet" href="~/rentoCarEliteSystem.styles.css" asp-append-version="true" />
 </head>
 <body>
 
     <header>
-        <nav class="navbar navbar-light bg-white border-bottom shadow-sm p-3">
+        <nav id="mainNavbar" class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm p-3">
             <div class="container-fluid">
-                <button class="btn btn-primary me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+                <button class="btn btn-primary me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar">
                     <i class="fas fa-bars"></i> Menú
                 </button>
-                <div>
-                    <!--Logut button-->
-                    <button class="btn btn-danger" id="logoutnButton">
+                <div class="d-flex align-items-center">
+                    <!-- Botón de cambio de tema -->
+                    <button id="toggleTheme" class="btn btn-outline-secondary me-3">
+                        <i class="fas fa-moon"></i> <!-- Ícono cambia dinámicamente -->
+                    </button>
+
+                    <!-- Botón de logout -->
+                    <button class="btn btn-danger" id="logoutButton">
                         <i class="fas fa-sign-out-alt"></i> Logout
                     </button>
 
-                    <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">
+                    <a class="navbar-brand fw-bold ms-3" asp-area="" asp-controller="Home" asp-action="Index">
                         <i class="fas fa-globe"></i> Rent a Car Elite System
                     </a>
                 </div>
@@ -42,31 +45,32 @@
         </nav>
     </header>
 
+
     <!-- Sidebar -->
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar">
         <div class="offcanvas-header bg-primary text-white">
-            <h5 class="offcanvas-title" id="sidebarLabel"><i class="fas fa-bars"></i> Menú</h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <h5 class="offcanvas-title"><i class="fas fa-bars"></i> Menú</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
         </div>
-        <div class="offcanvas-body">
+        <div class="offcanvas-body bg-light text-dark" id="sidebarBody">
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">
+                    <a class="nav-link" id="homeLink" asp-controller="Home" asp-action="Index">
                         <i class="fas fa-home"></i> Home
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Vehicle" asp-action="Index">
+                    <a class="nav-link" id="vehiclesLink" asp-controller="Vehicle" asp-action="Index">
                         <i class="fas fa-car"></i> Vehicles
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="Index">
+                    <a class="nav-link" id="customersLink" asp-controller="Customer" asp-action="Index">
                         <i class="fas fa-users"></i> Clientes
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Index">
+                    <a class="nav-link" id="employeesLink" asp-controller="Employee" asp-action="Index">
                         <i class="fas fa-user-tie"></i> Empleados
                     </a>
                 </li>
@@ -81,15 +85,47 @@
         </main>
     </div>
 
-
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2025 - rentoCarEliteSystem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const themeToggleButton = document.getElementById("toggleTheme");
+            const htmlElement = document.documentElement;
+
+            // Cargar tema desde localStorage
+            const savedTheme = localStorage.getItem("theme") || "light";
+            htmlElement.setAttribute("data-bs-theme", savedTheme);
+            updateButtonIcon(savedTheme);
+
+            // Cambiar tema al hacer clic en el botón
+            themeToggleButton.addEventListener("click", function () {
+                const currentTheme = htmlElement.getAttribute("data-bs-theme");
+                const newTheme = currentTheme === "light" ? "dark" : "light";
+                htmlElement.setAttribute("data-bs-theme", newTheme);
+                localStorage.setItem("theme", newTheme);
+                updateButtonIcon(newTheme);
+            });
+
+            // Actualizar ícono y texto del botón
+            function updateButtonIcon(theme) {
+                if (theme === "dark") {
+                    themeToggleButton.innerHTML = '<i class="fas fa-sun"></i> Modo Claro';
+                } else {
+                    themeToggleButton.innerHTML = '<i class="fas fa-moon"></i> Modo Oscuro';
+                }
+            }
+        });
+    </script>
+
 
 
 
@@ -101,7 +137,4 @@
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/bs-stepper/dist/js/bs-stepper.min.js"></script>
-
-@* <script src="~/js/global.js"></script>
-<script src="~/js/common.js"></script> *@
 </html>
