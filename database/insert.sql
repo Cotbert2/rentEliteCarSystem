@@ -151,3 +151,12 @@ BEGIN
     -- Devolver el ID del nuevo registro insertado
     SELECT SCOPE_IDENTITY() AS NewInsuranceId;
 END;
+
+
+--Manual insertions
+INSERT INTO Vehicles (Brand, Model, VehicleYear, Price, CurrentStatus)
+VALUES ('Toyota', 'Corolla', 2019, 20000, 'Available');
+
+INSERT INTO Bookings (CustomerId, VehicleId, StartDate, EndDate, BookingStatus)
+VALUES (1, 1, '2020-01-01', '2020-01-10', 'Pending');
+

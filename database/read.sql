@@ -46,3 +46,17 @@ BEGIN
     
     SELECT Id, FirstName, LastName, Position, Phone, Email FROM Employees;
 END;
+
+
+
+CREATE PROCEDURE sp_getBookingsByCustomerId
+    @CustomerId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT VehicleId, StartDate, EndDate, BookingStatus  FROM Bookings
+    WHERE CustomerId = @CustomerId;
+END;
+
+EXEC sp_getBookingsByCustomerId 1;

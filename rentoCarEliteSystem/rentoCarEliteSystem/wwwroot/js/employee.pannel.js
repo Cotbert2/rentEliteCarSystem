@@ -293,6 +293,3 @@ const deeleteCurrentEployee = () => {
         });
     });
 }
-
-
-

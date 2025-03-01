@@ -19,3 +19,12 @@ BEGIN
     SET CurrentStatus = 'eliminado'
     WHERE Id = @VehicleId;
 END;
+
+CREATE PROCEDURE sp_DeleteEmployee
+    @EmployeeId INT
+AS
+BEGIN
+    
+    DELETE FROM Employees
+    WHERE Id = @EmployeeId;
+END;

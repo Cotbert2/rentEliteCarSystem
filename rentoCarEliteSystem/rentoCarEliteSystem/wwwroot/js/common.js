@@ -298,4 +298,6 @@ const confirmationModal = (title,text,
             confirmationCallback();
         }
       });
-}
+} 
+
+console.log('ok')

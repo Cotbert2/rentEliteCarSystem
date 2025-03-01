@@ -1,0 +1,155 @@
+﻿
+@{
+    ViewData["Title"] = "newSell";
+}
+
+<h1 class="text-md-center">Nueva Venta</h1>
+<div class="container mt-5">
+    <div id="stepper" class="bs-stepper">
+        <div class="bs-stepper-header">
+            <div class="step" data-target="#step-1">
+                <button class="step-trigger">
+                    <span class="bs-stepper-circle"><i class="fa-solid fa-car"></i></span>
+                    <span class="bs-stepper-label">Vehículo</span>
+                </button>
+            </div>
+            <div class="line"></div>
+            <div class="step" data-target="#step-2">
+                <button class="step-trigger">
+                    <span class="bs-stepper-circle"><i class="fa-solid fa-user"></i></span>
+                    <span class="bs-stepper-label">Cliente</span>
+                </button>
+            </div>
+            <div class="line"></div>
+            <div class="step" data-target="#step-3">
+                <button class="step-trigger">
+                    <span class="bs-stepper-circle"><i class="fa-solid fa-calendar-alt"></i></span>
+                    <span class="bs-stepper-label">Agenda</span>
+                </button>
+            </div>
+            <div class="line"></div>
+            <div class="step" data-target="#step-4">
+                <button class="step-trigger">
+                    <span class="bs-stepper-circle"><i class="fa-solid fa-credit-card"></i></span>
+                    <span class="bs-stepper-label">Pago</span>
+
+
+
+
+                </button>
+            </div>
+            <div class="line"></div>
+            <div class="step" data-target="#step-5">
+                <button class="step-trigger">
+                    <span class="bs-stepper-circle"><i class="fa-solid fa-shield"></i></span>
+                    <span class="bs-stepper-label">Seguro</span>
+                </button>
+            </div>
+        </div>
+        <div class="container mt-4">
+            <div class="bs-stepper-content">
+                <!-- Paso 1 -->
+                <div id="step-1" class="content active">
+                    <h5 class="mb-3">Información del Vehículo</h5>
+                    <div class="mb-3">
+                        <select id="select-items" class="form-select"></select>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button class="btn btn-primary" onclick="stepper.next()">Siguiente</button>
+                    </div>
+                </div>
+
+                <!-- Paso 2 -->
+                <div id="step-2" class="content">
+                    <h5 class="mb-3">Datos del Cliente</h5>
+                    <div class="mb-3">
+                        <select id="select-customer" class="form-select"></select>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-secondary" onclick="stepper.previous()">Anterior</button>
+                        <button class="btn btn-primary" onclick="stepper.next()">Siguiente</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Paso 3 -->
+            <div id="step-3" class="content">
+
+                <h2 style="text-align: center;">Selecciona una fecha disponible</h2>
+                <div id="calendar"></div>
+
+                <button class="btn btn-secondary" onclick="stepper.previous()">Anterior</button>
+                <button class="btn btn-primary" id="calendarNext">Siguiente</button>
+            </div>
+            <!-- Paso 4 -->
+            <div id="step-4" class="content">
+                <h5>Detalles de Pago</h5>
+
+                <!--combo box for payment method-->
+                <select class="form-select mb-3" id="paymentMethod">
+                    <option value="cash">Efectivo</option>
+                    <option value="debit_card">Tarjeta de crédito</option>
+                    <option value="credit_card">Tarjeta de débito</option>
+                </select>
+
+                <button class="btn btn-secondary" onclick="stepper.previous()">Anterior</button>
+                <button class="btn btn-primary" onclick="stepper.next()">Siguiente</button>
+            </div>
+            <!-- Paso 5 -->
+            <div id="step-5" class="content">
+                <h5>Seguro Opcional</h5>
+                <select class="form-control mb-3">
+                    <option>Sin seguro</option>
+                    <option>Seguro básico</option>
+                    <option>Seguro completo</option>
+                </select>
+                <button class="btn btn-secondary" onclick="stepper.previous()">Anterior</button>
+                <button class="btn btn-success">Finalizar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+
+    #calendar {
+        max-width: 700px;
+        margin: auto;
+    }
+</style>
+
+<script src="~/js/newSell.js"></script>
+<script src="~/js/common.js"></script>
+<script src="~/js/vehicles.service.js"></script>
+<script src="~/js/customer.service.js"></script>
+<script src="~/js/newSell.service.js"></script>
+@* <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let calendarEl = document.getElementById('calendar');
+
+        let calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',  // Vista predeterminada (mes)
+            locale: 'es',  // Idioma en español
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            validRange: {
+                start: new Date().toISOString().split('T')[0] // Bloquea días pasados
+            },
+            events: [
+                { title: 'Evento 1', start: '2025-03-05' },
+                { title: 'Evento 2', start: '2025-03-10', end: '2025-03-12' },
+                { title: 'Reunión', start: '2025-03-15T10:30:00' }
+            ],
+            dateClick: function (info) {
+                alert('Día seleccionado: ' + info.dateStr);
+            },
+            eventClick: function (info) {
+                alert('Evento: ' + info.event.title);
+            }
+        });
+
+        calendar.render();
+    });
+</script> *@
+
