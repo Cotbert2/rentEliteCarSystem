@@ -54,6 +54,9 @@ document.addEventListener("DOMContentLoaded", () => {
             return { value: JSON.stringify( item), text: item.brand + ' ' + item.model + ' ' + item.vehicleYear };
         });
         select.addOptions(items);
+
+
+
     });
 
 
@@ -72,8 +75,6 @@ document.addEventListener("DOMContentLoaded", () => {
         selectCustomer.addOptions(itemsCustomer);
     });
 
-    selectCustomer.addOptions(itemsCustomer);
-    select.addOptions(itemsCustomer);
 
     select.on("change", (e) => {
         booking.vehicle = JSON.parse(e);
@@ -94,6 +95,15 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log(datesInavailable);
         });
 
+        const vehicle = JSON.parse(e);
+
+
+        document.getElementById('brand').value = vehicle.brand;
+        document.getElementById('model').value = vehicle.model;
+        document.getElementById('price').value = vehicle.price;
+        document.getElementById('year').value = vehicle.vehicleYear;
+        document.getElementById('image').src = vehicle.photo;
+
 
         console.log('event',e);
     })
@@ -101,6 +111,12 @@ document.addEventListener("DOMContentLoaded", () => {
     selectCustomer.on("change", (e) => {
         booking.customer = JSON.parse(e);
         console.log('event', e);
+
+        document.getElementById('name').value = booking.customer.firstName;
+        document.getElementById('lastName').value = booking.customer.lastName;
+        document.getElementById('phone').value = booking.customer.phone;
+        document.getElementById('email').value = booking.customer.email;
+
     });
 
     let bookingID;
@@ -288,6 +304,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    document.getElementById('customerNext').addEventListener('click', () => {
+        if (!booking.customer.id) {
+            alert('Debes seleccionar un cliente.');
+            return;
+        }
+        stepper.next();
+    });
 
     document.getElementById('nextInsuranceButton').addEventListener('click', () => {
         secureOption = secureTypeSelect.value;
@@ -309,6 +332,14 @@ document.addEventListener("DOMContentLoaded", () => {
         stepper.next();
     });
 
+    document.getElementById('vechileNextSelection').addEventListener('click', () => {
+        if (!booking.vehicle.vehicleId) {
+            alert('Debes seleccionar un vehículo.');
+            return;
+        }
+            stepper.next();
+    });
+
 });
 
 
@@ -320,3 +351,5 @@ document.querySelector("#stepper").addEventListener("shown.bs-stepper", (event) 
         }, 200);
     }
 });
+
+
