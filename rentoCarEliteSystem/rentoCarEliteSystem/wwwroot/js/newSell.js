@@ -1,6 +1,6 @@
 ﻿let vehiclesCatalog;
 let customersCatalog;
-
+let calendar;
 
 const secures = [
     {
@@ -103,41 +103,10 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log('event', e);
     });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     let bookingID;
-
-
-
-
-    let calendar;
     let events;
 
     const renderCalendar = (datesInavailable) => {
-        console.log('asdasdlaksjd');
 
         let calendarEl = document.getElementById('calendar');
         events = datesInavailable.map(item => ({
@@ -195,8 +164,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
         });
-
         calendar.render();
+        setTimeout(() => {
+            if (calendar) {
+                calendar.updateSize();
+            }
+        }, 300);
     };
 
 
@@ -287,19 +260,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const computeTotalAmount = () => {
         const days = getReservedDates().length;
         const pricePerDay = booking.vehicle.price;
-        const totalAmount = days * pricePerDay;
+        const totalAmount = (days * pricePerDay) + fullSelectedTypeSecure.amount;
         return totalAmount;
 
     }
-
-
-
-
-
-
-
-
-
 
     const secureTypeSelect = document.getElementById("secureType");
     const descriptionField = document.getElementById("description");
@@ -347,3 +311,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+
+document.querySelector("#stepper").addEventListener("shown.bs-stepper", (event) => {
+    console.log("Step " + event.detail.indexStep + " shown");
+    if (event.detail.indexStep === 2 && calendar) {
+        setTimeout(() => {
+            calendar.updateSize();
+        }, 200);
+    }
+});
