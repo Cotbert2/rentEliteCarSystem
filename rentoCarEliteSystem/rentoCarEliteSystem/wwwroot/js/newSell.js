@@ -205,7 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
         customer: {},
         startDate: '',
         endDate: '',
-        bookingStatus : "Pending"
+        bookingStatus : "ACTIVE",
     };
 
     const getReservedDates = () => {

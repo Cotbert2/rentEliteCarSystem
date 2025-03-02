@@ -132,11 +132,11 @@ const generateTable = (data) => {
 
 
         if (data.isDeletable || data.isEditable) {
-            content += `<td class="d-flex align-items-center justify-content-between ">`
+            content += `<td class="">`
             if (data.isEditable)
                 content += `<button class="btn btn-primary" onclick="${data.editFunction}('${encodeURIComponent(JSON.stringify(currentData))}')">
                     <i class="fa-solid fa-pen-to-square"></i>
-                </button>`;
+                </button> `;
 
             if (data.isDeletable) content += `<button class="btn btn-danger" onclick="${data.deleteFunction}('${encodeURIComponent(JSON.stringify(currentData))}')">
             <i class="fa-solid fa-trash"></i>
@@ -275,8 +275,8 @@ const validateUrl = (url) => {
 
 
 
-const confirmationModal = (title,text, 
-    confirmLabel, 
+const confirmationModal = (title,text,
+    confirmLabel,
     cancelLabel,
     confirmationColor, cancelColor,
     confirmationCallback) => {

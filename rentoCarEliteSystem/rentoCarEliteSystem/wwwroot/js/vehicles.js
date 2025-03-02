@@ -74,7 +74,7 @@ const renderTableFun = (data) => {
 
 
 document.getElementById('downloadCsv').addEventListener('click', () => {
-    downloadCSVFileFromTable('dataTable', 'customers');
+    downloadCSVFileFromTable('dataTable', 'vehicles');
 });
 
 

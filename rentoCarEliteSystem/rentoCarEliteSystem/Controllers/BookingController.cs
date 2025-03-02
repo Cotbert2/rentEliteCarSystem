@@ -37,5 +37,12 @@ namespace rentoCarEliteSystem.Controllers
             BoookingBL myBooking = new BoookingBL();
             return myBooking.getDashBoardData();
         }
+
+        [HttpDelete]
+        public EntityLayer.systemEntities.ResponseEL deleteBooking(int bookingId)
+        {
+            BoookingBL myBooking = new BoookingBL();
+            return myBooking.deleteBooking(bookingId);
+        }
     }
 }

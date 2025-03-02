@@ -93,7 +93,11 @@ namespace BussinesLayer
         }
 
 
-
+        public EntityLayer.systemEntities.ResponseEL deleteBooking(int bookingId)
+        {
+            DataLayer.BookingDL bookingDL = new DataLayer.BookingDL();
+            return bookingDL.deleteBooking(bookingId);
+        }
         public List<BookingEL> getBookingsByVechileId(int vehicleId)
         {
 

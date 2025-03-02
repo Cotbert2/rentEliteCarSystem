@@ -161,6 +161,31 @@ namespace DataLayer
         }
 
 
+        //delete booking
+        public EntityLayer.systemEntities.ResponseEL deleteBooking(int bookingId)
+        {
+            EntityLayer.systemEntities.ResponseEL response = new EntityLayer.systemEntities.ResponseEL();
+            response.code = -1;
+            try
+            {
+                using (SqlCommand cmd = new SqlCommand("sp_DeleteBooking", getConnection()))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@BookingId", bookingId);
+                    response.code = cmd.ExecuteNonQuery();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.code = -1;
+                response.message = ex.Message;
+                return response;
+            }
+            return response;
+        }
+
+
     }
 
 }

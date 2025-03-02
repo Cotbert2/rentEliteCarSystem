@@ -70,15 +70,19 @@ BEGIN
     SET NOCOUNT ON;
     
     SELECT CustomerId, StartDate, EndDate, BookingStatus  FROM Bookings
-    WHERE VehicleId = @VehicleId;
+    WHERE VehicleId = @VehicleId and BookingStatus = 'ACTIVE'
+    --all fields should be not null
+    and CustomerId is not null and StartDate is not null and EndDate is not null and BookingStatus is not null;
+
 END;
+
 
 
 
 CREATE PROCEDURE sp_GetDashboardData
 AS
 BEGIN
-SELECT 
+SELECT
     B.Id AS BookingId,
     C.FirstName + ' ' + C.LastName AS CustomerName,
     C.Phone AS CustomerPhone,
@@ -99,5 +103,9 @@ JOIN Customers C ON B.CustomerId = C.Id
 JOIN Vehicles V ON B.VehicleId = V.Id
 LEFT JOIN Payments P ON B.Id = P.BookingId
 LEFT JOIN Insurance I ON B.Id = I.BookingId
+WHERE B.BookingStatus = 'Active'
 ORDER BY B.Id;
 END;
+
+
+/*Store procedure for populated bookings*/

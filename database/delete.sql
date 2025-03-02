@@ -28,3 +28,13 @@ BEGIN
     DELETE FROM Employees
     WHERE Id = @EmployeeId;
 END;
+
+
+CREATE PROCEDURE sp_DeleteBooking
+    @BookingId INT
+AS
+BEGIN
+    UPDATE Bookings
+    SET BookingStatus = 'CANCELED'
+    WHERE Id = @BookingId;
+END;
