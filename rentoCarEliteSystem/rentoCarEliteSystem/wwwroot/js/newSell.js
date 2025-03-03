@@ -121,9 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let bookingID;
     let events;
-
     const renderCalendar = (datesInavailable) => {
-
         let calendarEl = document.getElementById('calendar');
         events = datesInavailable.map(item => ({
             title: 'Reservado',
@@ -146,25 +144,80 @@ document.addEventListener("DOMContentLoaded", () => {
             events: events,
             dateClick: function (info) {
                 let dateSelected = info.dateStr;
+    
                 let isUnavailable = events.some(event =>
                     new Date(event.start).toISOString().split('T')[0] === dateSelected
                 );
-                let isAlreadyReserved = calendar.getEvents().some(event =>
-                    event.start.toISOString().split('T')[0] === dateSelected && event.title === 'Reservar'
-                );
-
-                let reservedDates = calendar.getEvents()
-                    .filter(event => event.title === 'Reservar' || event.title === 'Reservado')
-                    .map(event => event.start.toISOString().split('T')[0]);
-
+    
+                let userReservedEvents = calendar.getEvents().filter(event => event.title === 'Reservar');
+                let userReservedDates = userReservedEvents.map(event => event.start.toISOString().split('T')[0]).sort();
+    
                 let prevDate = new Date(dateSelected);
                 prevDate.setDate(prevDate.getDate() - 1);
                 let nextDate = new Date(dateSelected);
                 nextDate.setDate(nextDate.getDate() + 1);
-
-                let isAdjacent = reservedDates.includes(prevDate.toISOString().split('T')[0]) || reservedDates.includes(nextDate.toISOString().split('T')[0]);
-
-                if (!isUnavailable && !isAlreadyReserved && isAdjacent) {
+    
+                let prevDateStr = prevDate.toISOString().split('T')[0];
+                let nextDateStr = nextDate.toISOString().split('T')[0];
+    
+                if (userReservedDates.includes(dateSelected)) {
+                    let eventToRemove = userReservedEvents.find(event => event.start.toISOString().split('T')[0] === dateSelected);
+                    if (eventToRemove) {
+                        eventToRemove.remove();
+                    }
+    
+                    userReservedDates = calendar.getEvents()
+                        .filter(event => event.title === 'Reservar')
+                        .map(event => event.start.toISOString().split('T')[0])
+                        .sort();
+    
+                    let hasGap = false;
+                    for (let i = 0; i < userReservedDates.length - 1; i++) {
+                        let currentDate = new Date(userReservedDates[i]);
+                        let nextDate = new Date(userReservedDates[i + 1]);
+                        currentDate.setDate(currentDate.getDate() + 1);
+    
+                        if (currentDate.toISOString().split('T')[0] !== userReservedDates[i + 1]) {
+                            hasGap = true;
+                            break;
+                        }
+                    }
+    
+                    if (hasGap) {
+                        let startDeleting = false;
+                        for (let event of userReservedEvents) {
+                            let eventDate = event.start.toISOString().split('T')[0];
+    
+                            if (eventDate === dateSelected) {
+                                startDeleting = true;
+                            }
+    
+                            if (startDeleting) {
+                                event.remove();
+                            }
+                        }
+                    }
+    
+                    return;
+                }
+    
+                if (userReservedDates.length === 0) {
+                    if (!isUnavailable) {
+                        calendar.addEvent({
+                            title: 'Reservar',
+                            start: dateSelected,
+                            color: 'green',
+                            display: 'block'
+                        });
+                    } else {
+                        alert('Esta fecha ya está reservada.');
+                    }
+                    return;
+                }
+    
+                let isContiguous = userReservedDates.includes(prevDateStr) || userReservedDates.includes(nextDateStr);
+    
+                if (!isUnavailable && isContiguous) {
                     calendar.addEvent({
                         title: 'Reservar',
                         start: dateSelected,
@@ -173,21 +226,22 @@ document.addEventListener("DOMContentLoaded", () => {
                     });
                 } else if (isUnavailable) {
                     alert('Esta fecha ya está reservada.');
-                } else if (isAlreadyReserved) {
-                    alert('Esta fecha ya está en tu lista de reservas.');
                 } else {
-                    alert('Solo puedes reservar días adyacentes a una reserva existente.');
+                    alert('Solo puedes reservar fechas consecutivas a tus reservas existentes.');
                 }
             }
         });
+    
         calendar.render();
+    
         setTimeout(() => {
             if (calendar) {
                 calendar.updateSize();
             }
         }, 300);
     };
-
+    
+    
 
     let booking = {
         vehicle: {},
@@ -230,6 +284,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log('data from createBooking', data);
                 if (data.code > 1) {
                     bookingID = data.code;
+                    booking.bookingID = data.code;
                     alert('Reserva creada exitosamente');
 
                 } else {
@@ -242,7 +297,7 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log('should pass');
 
 
-            document.getElementById('totalAmount').value = computeTotalAmount();
+            // document.getElementById('totalAmount').value = computeTotalAmount();
         }
     });
 
@@ -256,14 +311,16 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('nextStepPayment').addEventListener('click', () => {
         createPayment({
             paymentMethod: document.getElementById('paymentMethod').value,
-            booking: {
-                bookingID
-            }
+            booking: booking
 
         }, (data) => {
             console.log('data bring', data);
             if (data.code >= 1) {
-                alert('Pago creado con exito');
+                confirmationModal('Pago creado', 'El pago se ha creado con exito',
+                    'Aceptar', 'Cancelar', '#3085d6', '#d33',
+                    () => {
+                        window.location.href = '/Home/newSell/' + bookingID;
+                    });
             } else {
                 alert('Ocurrio un error al crear el pago');
             }
@@ -276,7 +333,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const computeTotalAmount = () => {
         const days = getReservedDates().length;
         const pricePerDay = booking.vehicle.price;
-        const totalAmount = (days * pricePerDay) + fullSelectedTypeSecure.amount;
+        const totalAmount = days * 1.15 * (pricePerDay + fullSelectedTypeSecure.amount);
+        console.log('days', days);
+        console.log('pricePerDay', pricePerDay);
+        console.log('insucre amount', fullSelectedTypeSecure.amount);
         return totalAmount;
 
     }
@@ -313,6 +373,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     document.getElementById('nextInsuranceButton').addEventListener('click', () => {
+        document.getElementById('totalAmount').value = computeTotalAmount();
+
         secureOption = secureTypeSelect.value;
         console.log('secure option', secureOption)
         createInsurancePayment({

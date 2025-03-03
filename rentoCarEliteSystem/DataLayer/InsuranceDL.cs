@@ -32,5 +32,33 @@ namespace DataLayer
             }
             return response;
         }
+
+
+        public InsuranceEL getInsuranceByBookingId(int bookingId)
+        {
+            InsuranceEL insurance = new InsuranceEL();
+            try
+            {
+                using (SqlCommand cmd = new SqlCommand("sp_GetInsuranceByBookingId", getConnection()))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@BookingId", bookingId);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            insurance.insuranceID = Convert.ToInt32(reader["Id"]);
+                            insurance.insuranceType = reader["SecureType"].ToString();
+                            insurance.amount = (float) Convert.ToDecimal(reader["Amount"]);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+            return insurance;
+        }
     }
 }
