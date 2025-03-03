@@ -77,6 +77,18 @@ BEGIN
 END;
 
 
+	CREATE PROCEDURE sp_getBookingsByVehicleId
+    @VehicleId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+--JOIN
+    SELECT B.Id as Id, CustomerId, StartDate, EndDate, BookingStatus, VehicleId FROM Payments P
+    JOIN Bookings B ON P.BookingId = B.Id
+    WHERE B.VehicleId =  @VehicleId and BookingStatus = 'ACTIVE'
+END;
+
+
 
 
 CREATE PROCEDURE sp_GetDashboardData
@@ -109,3 +121,15 @@ END;
 
 
 /*Store procedure for populated bookings*/
+
+
+
+CREATE PROCEDURE sp_GetInsuranceByBookingId
+    @BookingId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT * FROM Insurance
+    WHERE BookingId = @BookingId;
+END;

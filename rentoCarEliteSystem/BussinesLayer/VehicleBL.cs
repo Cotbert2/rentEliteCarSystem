@@ -27,7 +27,24 @@ namespace BussinesLayer
 
         public EntityLayer.systemEntities.ResponseEL deleteVehicle(int vehicleId) {
             VehicleDL vehicleDL = new VehicleDL();
-            return vehicleDL.deleteVehicle(vehicleId);
+            EntityLayer.systemEntities.ResponseEL response =  vehicleDL.deleteVehicle(vehicleId);
+
+            //check for bookings
+            if (response.code == 1)
+            {
+                BookingDL bookingDL = new BookingDL();
+                List<BookingEL> bookings = bookingDL.getBookingsByVehicleId(vehicleId);
+
+                if (bookings.Count > 0)
+                {
+                    foreach (BookingEL booking in bookings)
+                    {
+                        bookingDL.deleteBooking(booking.bookingID);
+                    }
+                }
+            }
+
+            return response;
         }
     }
 }

@@ -217,7 +217,7 @@ const deleteVehicle = (currentVehicle) => {
     console.log('data to delete', dataVehicle);
 
     currentVehicleDelete = dataVehicle;
-    document.getElementById('confirmationDeletrUserLabel').textContent = `Estas seguro que deseas eliminar al vehiculo  ${dataVehicle.brand} ${dataVehicle.model} ?`;
+    document.getElementById('confirmationDeletrUserLabel').textContent = `Estas seguro que deseas eliminar al vehiculo  ${dataVehicle.brand} ${dataVehicle.model} ? Ten en cuenta que todas las reservas asociadas a este vehiculo seran eliminadas.`;
     //put the image in the modal
     document.getElementById('confirmationDeletrUserLabel').insertAdjacentHTML('beforeend', `<img src="${dataVehicle.photo}" style="width: 100%"/>`);
     deleteModal.show();
