@@ -32,14 +32,14 @@ namespace BussinesLayer
             //check for bookings
             if (response.code == 1)
             {
-                BookingDL bookingDL = new BookingDL();
-                List<BookingEL> bookings = bookingDL.getBookingsByVehicleId(vehicleId);
+                BoookingBL bookingBL = new BoookingBL();
+                List<BookingEL> bookings = bookingBL.getBookingsByVechileId(vehicleId);
 
                 if (bookings.Count > 0)
                 {
                     foreach (BookingEL booking in bookings)
                     {
-                        bookingDL.deleteBooking(booking.bookingID);
+                        bookingBL.deleteBooking(booking.bookingID);
                     }
                 }
             }

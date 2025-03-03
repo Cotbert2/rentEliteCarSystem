@@ -133,3 +133,6 @@ BEGIN
     SELECT * FROM Insurance
     WHERE BookingId = @BookingId;
 END;
+
+
+CREATE PROCEDURE sp_get
