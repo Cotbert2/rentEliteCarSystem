@@ -276,3 +276,30 @@ const validateUrl = (url) => {
 
 
 console.log('ok')
+
+
+const showToast = (type, message, title = "") => {
+    toastr.options = {
+        closeButton: true,
+        debug: false,
+        newestOnTop: true,
+        progressBar: true,
+        positionClass: "toast-top-right",
+        preventDuplicates: false,
+        onclick: null,
+        showDuration: 300,
+        hideDuration: 1000,
+        timeOut: 5000,
+        extendedTimeOut: 1000,
+        showEasing: "swing",
+        hideEasing: "linear",
+        showMethod: "fadeIn",
+        hideMethod: "fadeOut"
+    };
+
+    toastr[type](message, title);
+};
+
+const successToast = (message) => showToast("success", message, "Éxito");
+const errorToast = (message) => showToast("error", message, "Error");
+const warningToast = (message) => showToast("warning", message, "Advertencia");

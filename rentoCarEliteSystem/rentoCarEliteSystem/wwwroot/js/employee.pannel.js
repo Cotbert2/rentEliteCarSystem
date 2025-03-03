@@ -63,27 +63,27 @@ const validateCreationEditionForm = () => {
     const confirmPassword = document.getElementById('confirmPassword').value;
 
     if (!firstName || !lastName || !phone || !email || !jobTitle || !password || !confirmPassword) {
-        alert('Todos los campos son requeridos');
+        warningToast('Todos los campos son requeridos');
         return false;
     }
 
     if (password != confirmPassword) {
-        alert('Las contrasenas no coinciden');
+        warningToast('Las contrasenas no coinciden');
         return false;
     }
 
     if (!validateEmail(email)) {
-        alert('Invalid email');
+        warningToast('Invalid email');
         return false;
     }
 
     if (!validatePhone(phone)) {
-        alert('Invalid phone');
+        warningToast('Invalid phone');
         return false;
     }
 
     if (!validateName(firstName) || !validateName(lastName)) {
-        alert('Invalid name');
+        warningToast('Invalid name');
         return false;
     }
 
@@ -185,12 +185,12 @@ document.getElementById('addEmployeeButton').addEventListener('click', () => {
     createEmployeeService(dataToSent, (data) => {
         console.log('data from createCustomer', data);
         if (data.code > 1) {
-            alert('Empleado creado exitosamente');
+            successToast('Empleado creado exitosamente');
             myModal.hide();
         } else if (data.code == -1 && data.message.includes('UNIQUE KEY')) {
-            alert('El email ya existe');
+            errorToast('El email ya existe');
         } else {
-            alert('Ocurrio un error al crear el Empleado');
+            errorToast('Ocurrio un error al crear el Empleado');
         }
 
         getAllEmployees((data) => {
@@ -230,10 +230,10 @@ const saveEditedEmployee = () => {
         console.log('data froms service', response);
 
         if (response.code == 1) {
-            alert('Se ha actualizado el Empleado');
+            successToast('Se ha actualizado el Empleado');
             myModal.hide();
         } else {
-            alert('Error actualizando el Empleado');
+            errorToast('Error actualizando el Empleado');
         }
         getAllEmployees((data) => {
             tableData = data;
@@ -286,7 +286,7 @@ const deeleteCurrentEployee = () => {
     deleteEmployeeService(currentCustomerDelete.employeeID, (response) => {
         console.log('data froms service', response);
 
-        (response.code == 1) ? alert('Empleado eliminado con exito') : alert('Error eliminando el Empleado');
+        (response.code == 1) ? successToast('Empleado eliminado con exito') : errorToast('Error eliminando el Empleado');
 
         getAllEmployees((data) => {
             tableData = data;

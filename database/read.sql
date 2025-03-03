@@ -135,4 +135,13 @@ BEGIN
 END;
 
 
-CREATE PROCEDURE sp_get
+CREATE PROCEDURE sp_getCustomerByBookingId
+    @BookingId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT C.Id, C.FirstName, C.LastName, C.Phone, C.Email FROM Customers C
+    JOIN Bookings B ON C.Id = B.CustomerId
+    WHERE B.Id = @BookingId;
+END;

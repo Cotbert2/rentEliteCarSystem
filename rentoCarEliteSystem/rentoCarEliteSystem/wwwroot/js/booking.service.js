@@ -22,9 +22,9 @@ const getAllBookings = async (callback) => {
                 id : item.booking.bookingID,
                 startDate: item.booking.startDate,
                 endDate: item.booking.endDate,
-                customer: item.booking.customer.firstName + ' ' + item.booking.customer.lastName,
+                customer: item.booking.customer.firstName ,
                 email: item.booking.customer.email,
-                vehicle: item.booking.vehicle.brand + ' ' + item.booking.vehicle.model,
+                vehicle: item.booking.vehicle.brand,
                 insurance:  item.insurance.insuranceType,
                 payment: paymentMethods[item.payment.paymentMethod],
                 total: item.payment.amount

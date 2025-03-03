@@ -210,7 +210,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             display: 'block'
                         });
                     } else {
-                        alert('Esta fecha ya está reservada.');
+                        warningToast('Esta fecha ya está reservada.');
                     }
                     return;
                 }
@@ -225,9 +225,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         display: 'block'
                     });
                 } else if (isUnavailable) {
-                    alert('Esta fecha ya está reservada.');
+                    warningToast('Esta fecha ya está reservada.');
                 } else {
-                    alert('Solo puedes reservar fechas consecutivas a tus reservas existentes.');
+                    warningToast('Solo puedes reservar fechas consecutivas a tus reservas existentes.');
                 }
             }
         });
@@ -278,17 +278,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
         console.log('reservedDates', reservedDates);
         if (reservedDates.length === 0) {
-            alert('Debes seleccionar al menos una fecha.');
+            warningToast('Debes seleccionar al menos una fecha.');
         } else {
             createBookingService(booking, (data) => {
                 console.log('data from createBooking', data);
                 if (data.code > 1) {
                     bookingID = data.code;
                     booking.bookingID = data.code;
-                    alert('Reserva creada exitosamente');
+                    successToast('Reserva creada exitosamente');
 
                 } else {
-                    alert('Ocurrio un error al crear la reserva');
+                    errorToast('Ocurrio un error al crear la reserva');
                 }
             });
                     stepper.next();
@@ -322,7 +322,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         window.location.href = '/Home/newSell/' + bookingID;
                     });
             } else {
-                alert('Ocurrio un error al crear el pago');
+                errorToast('Ocurrio un error al crear el pago');
             }
 
         })
@@ -366,7 +366,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById('customerNext').addEventListener('click', () => {
         if (!booking.customer.id) {
-            alert('Debes seleccionar un cliente.');
+            warningToast('Debes seleccionar un cliente.');
             return;
         }
         stepper.next();
@@ -386,9 +386,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }, (data) => {
             console.log('data', data);
             if (data.code >= 1) {
-                alert('Pago de seguro creado con exito');
+                successToast('Pago de seguro creado con exito');
             } else {
-                alert('Ocurrio un error al crear el pago de seguro');
+                errorToast('Ocurrio un error al crear el pago de seguro');
             }
         })
         stepper.next();
@@ -396,7 +396,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById('vechileNextSelection').addEventListener('click', () => {
         if (!booking.vehicle.vehicleId) {
-            alert('Debes seleccionar un vehículo.');
+            warningToast('Debes seleccionar un vehículo.');
             return;
         }
             stepper.next();

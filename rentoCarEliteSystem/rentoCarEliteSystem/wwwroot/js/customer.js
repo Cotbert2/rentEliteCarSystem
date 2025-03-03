@@ -30,17 +30,17 @@ const validateCreationEditionForm = () => {
     const email = document.getElementById('email').value;
 
     if (!firstName || !lastName || !phone || !email) {
-        alert('All fields are required');
+        warningToast('All fields are required');
         return false;
     }
 
     if (!validateEmail(email)) {
-        alert('Invalid email');
+        warningToast('Invalid email');
         return false;
     }
 
     if (!validatePhone(phone)) {
-        alert('Invalid phone');
+        warningToast('Invalid phone');
         return false;
     }
 
@@ -137,12 +137,12 @@ document.getElementById('addCustomerButton').addEventListener('click', () => {
     createCustomer(dataToSent, (data) => {
         console.log('data from createCustomer', data);
         if (data.code > 1) {
-            alert('Usuario creado exitosamente');
+            successToast('Usuario creado exitosamente');
             myModal.hide();
         } else if (data.code == -1 && data.message.includes('UNIQUE KEY')) {
-            alert('El email ya existe');
+            errorToast('El email ya existe');
         } else {
-            alert('Ocurrio un error al crear el usuario');
+            errorToast('Ocurrio un error al crear el usuario');
         }
 
         getAllCustomers((data) => {
@@ -182,10 +182,10 @@ const saveEditedCustomer = () => {
         console.log('data froms service', response);
         
         if (response.code == 1) {
-            alert('Se ha actualizado el usuario');
+            successToast('Se ha actualizado el usuario');
             myModal.hide();
         } else {
-            alert('Error actualizando el usuario');
+            successToast('Error actualizando el usuario');
         }
         getAllCustomers((data) => {
             tableData = data;
@@ -237,7 +237,7 @@ const deleteCurrentCustomer = () => {
     deleteCustomerService(currentCustomerDelete.id, (response) => {
         console.log('data froms service', response);
 
-        (response.code == 1) ? alert('Usuario eliminado con exito') : alert('Error eliminando el usuario');
+        (response.code == 1) ? successToast('Usuario eliminado con exito') : errorToast('Error eliminando el usuario');
 
         getAllCustomers((data) => {
             tableData = data;

@@ -33,22 +33,22 @@ const validateCreationEditionForm = () => {
 
 
     if (!brand || !model || !year || !dailyPrice || !photoURL) {
-        alert('All fields are required');
+        warningToast('Todos los campos son requeridos');
         return false;
     }
 
     if (!validateNumber(year)) {
-        alert('Year must be a number');
+        warningToast('El año debe ser un numero');
         return false;
     }
 
     if (!validatePrice(dailyPrice)) {
-        alert('Price must be a number');
+        warningToast('El precio debe ser un numero');
         return false;
     }
 
     if(!validateUrl(photoURL)){
-        alert('Photo URL is not valid');
+        warningToast('Url de la foto invalida');
         return false
     }
 
@@ -130,10 +130,10 @@ document.getElementById('addVehicleButton').addEventListener('click', () => {
     createVehicle(dataToSent, (data) => {
         console.log('data from createVehicle', data);
         if (data.code > 1) {
-            alert('Vehiculo creado exitosamente');
+            successToast('Vehiculo creado exitosamente');
             myModal.hide();
         } else {
-            alert('Ocurrio un error al crear el vehiculo');
+            successToast('Ocurrio un error al crear el vehiculo');
         }
 
         getAllVehicles((data) => {
@@ -175,10 +175,10 @@ const saveEditedVehicle = () => {
         console.log('data froms service', response);
         
         if (response.code == 1) {
-            alert('Se ha actualizado el Vehiculo');
+            successToast('Se ha actualizado el Vehiculo');
             myModal.hide();
         } else {
-            alert('Error actualizando el Vehiculo');
+            successToast('Error actualizando el Vehiculo');
         }
         getAllVehicles((data) => {
             tableData = data;
@@ -233,7 +233,7 @@ const deleteCurrentVehicle = () => {
     deleteVehicleService(currentVehicleDelete.vehicleId, (response) => {
          console.log('data froms service', response);
 
-         (response.code == 1) ? alert('Vehiculo eliminado con exito') : alert('Error eliminando el Vehiculo');
+         (response.code == 1) ? successToast('Vehiculo eliminado con exito') : errorToast('Error eliminando el Vehiculo');
 
          getAllVehicles((data) => {
              tableData = data;

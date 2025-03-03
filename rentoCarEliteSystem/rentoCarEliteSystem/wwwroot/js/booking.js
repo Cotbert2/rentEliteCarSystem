@@ -88,7 +88,7 @@ const deleteCurrentBooking = () => {
     deleteBookingService(currentCustomerDelete.id, (response) => {
         console.log('data froms service', response);
 
-        (response.code == 1) ? alert('Reserva eliminada con exito') : alert('Error eliminando la reserva');
+        (response.code == 1) ? successToast('Reserva eliminada con exito') : errorToast('Error eliminando la reserva');
 
         getAllBookings((data) => {
             tableData = data;
