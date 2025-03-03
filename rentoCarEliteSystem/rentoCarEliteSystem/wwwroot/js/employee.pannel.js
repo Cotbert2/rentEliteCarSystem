@@ -270,8 +270,17 @@ const editEmployee = (customer) => {
 const deleteCustomer = (currentCustomer) => {
     const dataCustomer = JSON.parse(decodeURIComponent(currentCustomer));
     console.log('data to delete', dataCustomer);
+    //position lo lower case
+
 
     currentCustomerDelete = dataCustomer;
+
+
+    if (currentCustomerDelete.position.toLowerCase() == 'root') {
+        errorToast('No puedes eliminar al administrador principal');
+        return;
+    }
+
     document.getElementById('confirmationDeletrUserLabel').textContent = `Estas seguro que deseas eliminar al Empleado ${currentCustomerDelete.firstName} ${currentCustomerDelete.lastName}`;
     deleteModal.show();
 }

@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
         events = datesInavailable.map(item => ({
             title: 'Reservado',
             start: item.startDate,
-            end: item.endDate,
+            end : new Date(new Date(item.endDate).setDate(new Date(item.endDate).getDate() + 1)),
             color: 'red',
             display: 'block'
         }));

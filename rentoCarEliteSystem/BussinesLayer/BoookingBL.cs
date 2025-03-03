@@ -9,6 +9,40 @@ namespace BussinesLayer
 
         public  EntityLayer.systemEntities.ResponseEL createBooking(BookingEL booking)
         {
+            //booking's validation
+            if (booking.startDate == null || booking.endDate == null || booking.vehicle.VehicleId == 0 || booking.customer.id == 0)
+            {
+                return new EntityLayer.systemEntities.ResponseEL { code = 0, message = "All fields are required" };
+            }
+
+            if (booking.endDate < booking.startDate)
+            {
+                return new EntityLayer.systemEntities.ResponseEL { code = 0, message = "Inconsitance dates" };
+            }
+
+            List<BookingEL> bookings = getBookingsByVechileId(booking.vehicle.VehicleId);
+
+            //check if the booking is not overlaping with other bookings
+            foreach (BookingEL b in bookings)
+            {
+                if (booking.startDate >= b.startDate && booking.startDate <= b.endDate)
+                {
+                    return new EntityLayer.systemEntities.ResponseEL { code = 0, message = "The vehicle is already booked for the selected dates" };
+                }
+
+                if (booking.endDate >= b.startDate && booking.endDate <= b.endDate)
+                {
+                    return new EntityLayer.systemEntities.ResponseEL { code = 0, message = "The vehicle is already booked for the selected dates" };
+                }
+
+                if (booking.startDate <= b.startDate && booking.endDate >= b.endDate)
+                {
+                    return new EntityLayer.systemEntities.ResponseEL { code = 0, message = "The vehicle is already booked for the selected dates" };
+                }
+            }
+
+
+
             var emailManager = new Mailer();
 
 

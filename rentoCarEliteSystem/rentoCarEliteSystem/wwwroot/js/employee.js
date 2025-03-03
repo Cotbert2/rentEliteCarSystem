@@ -16,19 +16,19 @@ document.getElementById('loginButton').addEventListener('click', (event) => {
     console.log('data to send', dataToSend);
 
     if (!dataToSend.email || !dataToSend.password) {
-        warningToast('Todos los campos son requeridos');
+        alert('Todos los campos son requeridos');
         return;
     }
 
     if (!validateEmail(dataToSend.email)) {
-        warningToast('Ingrese un correo valido');
+        alert('Ingrese un correo valido');
         return;
     }
 
 
     login(dataToSend, (data) => {
         console.log('response form data service', data);
-        errorToast( (data.employeeID == 0)? 'Usuario o contrasena invalidos' : 'Inicio de sesion exitoso')
+        alert( (data.employeeID == 0)? 'Usuario o contrasena invalidos' : 'Inicio de sesion exitoso')
 
         //load data into the local storage
         if (data.employeeID != 0) {
