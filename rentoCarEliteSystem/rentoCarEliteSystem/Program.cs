@@ -24,6 +24,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Employee}/{action=Login}/{id?}")
     .WithStaticAssets();
+app.UseStatusCodePagesWithReExecute("/Home/Error", "?code={0}");
 
 
 app.Run();

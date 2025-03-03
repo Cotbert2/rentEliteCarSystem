@@ -21,5 +21,10 @@ namespace BussinesLayer
             string namePattern = @"^[a-zA-Z\s]{2,}$";
             return Regex.IsMatch(name, namePattern);
         }
+
+        public static bool validatePosition(string position){
+            if (position == "root" || position == "admin" || position == "employee") return true;
+            return false;
+        }
     }
 }

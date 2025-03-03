@@ -3,15 +3,7 @@
 *@
 @{
 }
-
-<h1 id="titlePannel" class="text-md-center">Empleados</h1>
-
-
-<p id="infoPannel" class="text-md-center"></p>
-
-
-<div id="employeePannel">
-
+<h1 class="text-md-center">Pannel de Reservas</h1>
 
 <div class="card p-3 mb-3 bg-light">
     <div class="d-flex align-items-center gap-2 justify-content-between">
@@ -22,8 +14,8 @@
         <button class="btn btn-success" id="downloadCsv">
             <i class="fas fa-file-csv"></i> Descargar .CSV
         </button>
-        <button type="button" class="btn btn-primary" id="addNewCustomerEmployee">
-            <i class="fas fa-user-plus"></i> Nuevo Empleado
+        <button type="button" class="btn btn-primary" id="addNewBooking">
+            <i class="fas fa-user-plus"></i> Nuevo Alquiler
         </button>
     </div>
 </div>
@@ -45,52 +37,31 @@
             <div class="modal-body">
                 <form id="userForm">
                     <div class="mb-3">
-                        <label for="firstName" class="form-label"><i class="fas fa-id-badge"></i> Nombre</label>
-                        <input type="text" class="form-control" id="firstName" name="firstName" required placeholder="Ingrese su nombre">
+                        <label for="firstName" class="form-label"><i class="fas fa-id-badge"></i> First Name</label>
+                        <input type="text" class="form-control" id="firstName" name="firstName" required>
                     </div>
                     <div class="mb-3">
-                        <label for="lastName" class="form-label"><i class="fas fa-id-card"></i> Apellido</label>
-                        <input type="text" class="form-control" id="lastName" name="lastName" required placeholder="Ingrese su apellido">
+                        <label for="lastName" class="form-label"><i class="fas fa-id-card"></i> Last Name</label>
+                        <input type="text" class="form-control" id="lastName" name="lastName" required>
                     </div>
                     <div class="mb-3">
-                        <label for="phone" class="form-label"><i class="fas fa-phone"></i> Teléfono</label>
-                        <input type="tel" class="form-control" id="phone" name="phone" required placeholder="Ingrese su número de teléfono">
+                        <label for="phone" class="form-label"><i class="fas fa-phone"></i> Phone</label>
+                        <input type="tel" class="form-control" id="phone" name="phone" required>
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label"><i class="fas fa-envelope"></i> Email</label>
-                        <input type="email" class="form-control" id="email" name="email" required placeholder="Ingrese su correo electrónico">
-                    </div>
-                    <!--Combobox for jobTitle title-->
-                    <!--            if (position == "root" || position == "admin" || position == "employee") return true;-->
-                    <div class="mb-3">
-                        <label for="jobTitle" class="form-label"><i class="fas fa-briefcase"></i> Puesto</label>
-                        <select class="form-select" id="jobTitle" name="jobTitle" required>
-                            <option value="root">Root</option>
-                            <option value="admin">Admin</option>
-                            <option value="employee">Empleado</option>
-                        </select>
-
-
-                    <div class="mb-3">
-                        <label for="password" class="form-label"><i class="fas fa-lock"></i> Contraseña</label>
-                        <input type="password" class="form-control" id="password" name="password" required minlength="6" placeholder="Ingrese su contraseña">
-                    </div>
-                    <div class="mb-3">
-                        <label for="confirmPassword" class="form-label"><i class="fas fa-lock"></i> Confirmar Contraseña</label>
-                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required minlength="6" placeholder="Confirme su contraseña">
-                        <div id="passwordHelp" class="form-text text-danger"></div>
+                        <input type="email" class="form-control" id="email" name="email" required>
                     </div>
                 </form>
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" id="closeFormModalButton">
                     <i class="fas fa-times-circle"></i> Cerrar
                 </button>
-                <button id="addEmployeeButton" type="button" class="btn btn-primary">
+                <button id="addCustomerButton" type="button" class="btn btn-primary" >
                     <i class="fas fa-save"></i> Guardar
                 </button>
-                <button id="saveEmployeeButton" class="btn btn-success" form="userForm">
+                <button id="saveCustomerButton" class="btn btn-success" form="userForm" >
                     <i class="fas fa-edit"></i> Editar
                 </button>
             </div>
@@ -102,7 +73,6 @@
 
 <!--Confirm Deletion Modal-->
 
-</div>
 
 <div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -129,5 +99,5 @@
 </div>
 
 <script src="~/js/common.js"></script>
-<script src="~/js/employee.service.js"></script>
-<script src="~/js/employee.pannel.js"></script>
+<script src="~/js/booking.service.js"></script>
+<script src="~/js/booking.js"></script>

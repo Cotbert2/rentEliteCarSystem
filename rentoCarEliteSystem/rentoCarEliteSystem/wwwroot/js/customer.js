@@ -55,7 +55,7 @@ const renderTableFun = (data) => {
         keys: ['id', 'firstName', 'lastName', 'phone', 'email'],
         data : data,
         isEditable: true,
-        isDeletable: true,
+        isDeletable: false,
         editFunction: 'editCustomer',
         deleteFunction: 'deleteCustomer',
     });

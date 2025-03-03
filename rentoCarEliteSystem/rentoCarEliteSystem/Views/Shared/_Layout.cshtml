@@ -19,64 +19,89 @@
     <link rel="stylesheet" href="~/rentoCarEliteSystem.styles.css" asp-append-version="true" />
 </head>
 <body>
-
+    
     <header>
         <nav id="mainNavbar" class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm p-3">
             <div class="container-fluid">
                 <button class="btn btn-primary me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar">
                     <i class="fas fa-bars"></i> Menú
                 </button>
-                <div class="d-flex align-items-center">
-                    <!-- Botón de cambio de tema -->
-                    <button id="toggleTheme" class="btn btn-outline-secondary me-3">
-                        <i class="fas fa-moon"></i> <!-- Ícono cambia dinámicamente -->
-                    </button>
-
-                    <!-- Botón de logout -->
-                    <button class="btn btn-danger" id="logoutButton">
-                        <i class="fas fa-sign-out-alt"></i> Logout
-                    </button>
-
-                    <a class="navbar-brand fw-bold ms-3" asp-area="" asp-controller="Home" asp-action="Index">
-                        <i class="fas fa-globe"></i> Rent a Car Elite System
-                    </a>
-                </div>
+                <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">
+                    <i class="fas fa-globe"></i> Rent a Car Elite System
+                </a>
             </div>
         </nav>
     </header>
-
-
-    <!-- Sidebar -->
+        <!-- Sidebar -->
     <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar">
         <div class="offcanvas-header bg-primary text-white">
             <h5 class="offcanvas-title"><i class="fas fa-bars"></i> Menú</h5>
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
         </div>
-        <div class="offcanvas-body bg-light text-dark" id="sidebarBody">
-            <ul class="nav flex-column">
+        <div class="offcanvas-body bg-light text-dark d-flex flex-column" id="sidebarBody">
+            <ul class="nav flex-column flex-grow-1">
                 <li class="nav-item">
-                    <a class="nav-link" id="homeLink" asp-controller="Home" asp-action="Index">
+                    <a class="nav-link" asp-controller="Home" asp-action="newSell">
+                        <i class="fas fa-shopping-cart"></i> Nueva Venta
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Home" asp-action="dashboard">
+                        <i class="fas fa-chart-line"></i> Ventas
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Home" asp-action="Index">
                         <i class="fas fa-home"></i> Home
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="vehiclesLink" asp-controller="Vehicle" asp-action="Index">
+                    <a class="nav-link" asp-controller="Vehicle" asp-action="Index">
                         <i class="fas fa-car"></i> Vehicles
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="customersLink" asp-controller="Customer" asp-action="Index">
+                    <a class="nav-link" asp-controller="Customer" asp-action="Index">
                         <i class="fas fa-users"></i> Clientes
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="employeesLink" asp-controller="Employee" asp-action="Index">
+                    <a class="nav-link" asp-controller="Employee" asp-action="Index">
                         <i class="fas fa-user-tie"></i> Empleados
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="toggleTheme">
+                        <i class="fas fa-moon"></i> Modo Oscuro
+                    </a>
+                </li>
+            </ul>
+            <ul class="nav flex-column mt-auto">
+                <li class="nav-item">
+                    <a class="nav-link text-danger" href="#" id="logoutButton">
+                        <i class="fas fa-sign-out-alt"></i> Logout
                     </a>
                 </li>
             </ul>
         </div>
     </div>
+
+    <style>
+        [data-bs-theme="dark"] .offcanvas,
+        [data-bs-theme="dark"] .navbar {
+            background-color: #212529 !important; /* Fondo oscuro */
+            color: #ffffff !important; /* Texto blanco */
+        }
+
+            [data-bs-theme="dark"] .offcanvas .nav-link {
+                color: #1d1616 !important;
+            }
+
+        [data-bs-theme="dark"] .offcanvas-header {
+            background-color: #343a40 !important; /* Un poco más claro para diferenciar */
+        }
+    </style>
 
 
     <div class="container">
@@ -87,7 +112,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2025 - rentoCarEliteSystem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2025 - Rent a Car Elite System
         </div>
     </footer>
 
@@ -101,12 +126,10 @@
             const themeToggleButton = document.getElementById("toggleTheme");
             const htmlElement = document.documentElement;
 
-            // Cargar tema desde localStorage
             const savedTheme = localStorage.getItem("theme") || "light";
             htmlElement.setAttribute("data-bs-theme", savedTheme);
             updateButtonIcon(savedTheme);
 
-            // Cambiar tema al hacer clic en el botón
             themeToggleButton.addEventListener("click", function () {
                 const currentTheme = htmlElement.getAttribute("data-bs-theme");
                 const newTheme = currentTheme === "light" ? "dark" : "light";
@@ -115,7 +138,6 @@
                 updateButtonIcon(newTheme);
             });
 
-            // Actualizar ícono y texto del botón
             function updateButtonIcon(theme) {
                 if (theme === "dark") {
                     themeToggleButton.innerHTML = '<i class="fas fa-sun"></i> Modo Claro';
@@ -137,5 +159,5 @@
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/bs-stepper/dist/js/bs-stepper.min.js"></script>
-
+<script src="~/js/global.js"></script>
 </html>

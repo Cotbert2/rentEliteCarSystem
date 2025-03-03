@@ -8,6 +8,7 @@ console.log('', currentUser.position);
 
 if (!(currentUser.position == 'root' || currentUser.position == 'admin')) {
    document.getElementById('infoPannel').innerText = 'No cuentas con permisos de administrador | Consulta con uno para saber mas';
+   document.getElementById('employeePannel').style.display = 'none';
 }
 
 

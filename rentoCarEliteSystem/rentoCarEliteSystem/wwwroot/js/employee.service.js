@@ -5,6 +5,13 @@ const createEmployeeeEndpoint = '/Employee/createEmployee';
 const deleteEmployeeEndpoint = '/Employee/deleteEmployee';
 
 
+const usersKind = {
+    root : 'Root',
+    admin: 'Administrador',
+    employee: 'Empleado'
+}
+
+
 /*****Services*****/
 
 const login = async (data, callback) => {
@@ -19,6 +26,9 @@ const login = async (data, callback) => {
 const getAllEmployees= async (callback) => {
     getFetch(getAllEmployeesEndpoint, 'json', (data) => {
         console.log('data froms service', data);
+        data.forEach((item) => {
+            item.position = usersKind[item.position];
+        });
         callback(data);
     });
 };
